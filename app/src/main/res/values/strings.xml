@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Assistant</string>
+    <string name="service_name">notiServ</string>
+</resources>
