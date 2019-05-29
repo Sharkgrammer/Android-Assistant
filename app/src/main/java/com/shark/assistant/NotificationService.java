@@ -31,20 +31,12 @@ public class NotificationService extends NotificationListenerService {
         String title = extras.getString("android.title");
         String text = extras.getCharSequence("android.text").toString();
 
-        Log.i("Package",pack);
-        Log.i("Title",title);
-        Log.i("Text",text);
+        Intent msg = new Intent("Msg");
+        msg.putExtra("package", pack);
+        msg.putExtra("title", title);
+        msg.putExtra("text", text);
 
-        Intent msgrcv = new Intent("Msg");
-        msgrcv.putExtra("package", pack);
-        msgrcv.putExtra("title", title);
-        msgrcv.putExtra("text", text);
-
-        LocalBroadcastManager.getInstance(context).sendBroadcast(msgrcv);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(msg);
     }
 
-    @Override
-    public void onNotificationRemoved(StatusBarNotification sbn) {
-
-    }
 }
