@@ -9,6 +9,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -18,8 +20,11 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
-    private BroadcastReceiver onNotice = new BroadcastReceiver() {
+    private EditText txtInput, txtOutput;
+    private boolean isPerson = true;
+    private holder data;
 
+    private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String pack = intent.getStringExtra("package");
@@ -36,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            holder data = new holder(getApplicationContext());
             pack = data.getAppName(pack);
             title = data.getPersonName(title);
-            text = data.getPersonName(text);
 
             String dataStr = pack + " . " + title + " . " + text;
 
@@ -67,7 +70,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        data = new holder(getApplicationContext());
+        txtInput = findViewById(R.id.txtInput);
+        txtOutput = findViewById(R.id.txtOutput);
+
         LocalBroadcastManager.getInstance(this).registerReceiver(onNotice, new IntentFilter("Msg"));
+    }
+
+    public void btnNewClick(View v) {
+        if (txtInput.getText().length() < 1 || txtOutput.getText().length() < 1){
+            Toast.makeText(getApplicationContext(), "Textboxes cannot be blank", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (isPerson){
+            data.newPerson(txtInput.getText().toString(), txtOutput.getText().toString());
+        }else{
+            data.newApp(txtInput.getText().toString(), txtOutput.getText().toString());
+        }
+    }
+
+    public void btnPersonClick(View v) {
+        isPerson = true;
+        txtInput.setHint("Name in app");
+        txtOutput.setHint("Nickname");
+    }
+
+    public void btnAppClick(View v) {
+        isPerson = false;
+        txtInput.setHint("App package");
+        txtOutput.setHint("Nickname");
     }
 
 }

@@ -27,7 +27,8 @@ public class NotificationService extends NotificationListenerService {
         String pack = sbn.getPackageName();
         Bundle extras = sbn.getNotification().extras;
         String title = extras.getString("android.title");
-        String text = extras.getCharSequence("android.text").toString();
+        String text = extras.getString("android.text");
+
 
         Intent msg = new Intent("Msg");
         msg.putExtra("package", pack);
