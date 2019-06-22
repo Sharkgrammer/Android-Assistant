@@ -12,6 +12,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,20 +30,24 @@ public class MainActivity extends AppCompatActivity {
             Log.wtf("Title",title);
             Log.wtf("Text",text);
 
-            String data = pack + " . " + title + " . " + text;
-            Log.i("TTS", "button clicked: " + data);
-            int speechStatus = textToSpeech.speak(data, TextToSpeech.QUEUE_FLUSH, null);
+            //check packages here
 
-            if (speechStatus == TextToSpeech.ERROR) {
-                Log.e("TTS", "Error in converting Text to Speech!");
-            }else{
-                //Stuff goes here
-
-                //Make noti templates and whatnot
-
-
+            if (pack.contains("youtube") || title.contains("Messenger is displaying over other apps")){
+                return;
             }
 
+            holder data = new holder(getApplicationContext());
+            pack = data.getAppName(pack);
+            title = data.getPersonName(title);
+            text = data.getPersonName(text);
+
+            String dataStr = pack + " . " + title + " . " + text;
+
+            Log.i("TTS", dataStr);
+            int speechStatus = textToSpeech.speak(dataStr, TextToSpeech.QUEUE_FLUSH, null);
+            if (speechStatus == TextToSpeech.ERROR) {
+                Log.e("TTS", "Error in converting Text to Speech!");
+            }
         }
     };
 

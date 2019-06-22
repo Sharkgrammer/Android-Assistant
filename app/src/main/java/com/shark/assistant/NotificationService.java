@@ -20,8 +20,6 @@ public class NotificationService extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-
-        Log.wtf("Temp", "hi");
     }
 
     @Override
