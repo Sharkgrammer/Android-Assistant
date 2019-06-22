@@ -12,17 +12,11 @@ public class holder {
 
     public holder(Context context){
         //Loaded appLIst and personList here from whatever data source
-         db = new database(context);
+        db = new database(context);
+        //make tables if exist
+        db.createTablesApp();
+        db.createTablesPerson();
 
-        try
-        {
-            //make tables if exist
-            db.createTablesApp();
-            db.createTablesPerson();
-        }
-        catch (Exception e){
-            Log.wtf("Error", e.toString());
-        }
         refresh();
     }
 
@@ -36,6 +30,10 @@ public class holder {
 
     public String getAppName(String name){
 
+        if (appList.isEmpty()){
+            return name;
+        }
+
         for (app x : appList){
             if (x.getInput().equals(name)){
                 return x.getOutput();
@@ -46,6 +44,10 @@ public class holder {
     }
 
     public String getPersonName(String name){
+
+        if (personList.isEmpty()){
+            return name;
+        }
 
         for (person x : personList){
             if (x.getInput().equals(name)){
