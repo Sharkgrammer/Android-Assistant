@@ -35,7 +35,7 @@ public class holder {
         }
 
         for (app x : appList){
-            if (x.getInput().equals(name)){
+            if (x.getInput().toLowerCase().equals(name.toLowerCase())){
                 return x.getOutput();
             }
         }
@@ -50,7 +50,7 @@ public class holder {
         }
 
         for (person x : personList){
-            if (x.getInput().equals(name)){
+            if (x.getInput().toLowerCase().equals(name.toLowerCase())){
                 return x.getOutput();
             }
         }
@@ -86,6 +86,16 @@ public class holder {
 
     public void deleteApp(int id){
         db.deleteApp(id);
+        refresh();
+    }
+
+    public void savePerson(person p){
+        db.savePerson(p.getId(), p.getInput(), p.getOutput());
+        refresh();
+    }
+
+    public void saveApp(app a){
+        db.saveApp(a.getId(), a.getInput(), a.getOutput());
         refresh();
     }
 

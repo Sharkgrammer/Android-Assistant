@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Assistant</string>
     <string name="service_name">notiServ</string>
+    <string name="peopleInput">Name in app</string>
+    <string name="peopleOutput">Nickname</string>
+    <string name="peopleExplain">Set peoples names in applications to be something else here</string>
+    <string name="appInput">App package</string>
+    <string name="appOutput">App nickname/message</string>
+    <string name="appExplain">Set app messages to be something else here. It uses the package name</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="add">New</string>
+    <string name="exit">Exit</string>
 </resources>

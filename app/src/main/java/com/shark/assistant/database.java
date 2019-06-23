@@ -18,6 +18,13 @@ public class database extends SQLiteOpenHelper {
     public database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         db = this.getWritableDatabase();
+
+        //String Query = "drop table app";
+        //db.execSQL(Query);
+
+        //String Query = "drop table person";
+        //db.execSQL(Query);
+
     }
 
     @Override
@@ -31,7 +38,7 @@ public class database extends SQLiteOpenHelper {
 
     public void createTablesPerson() {
         try{
-            String Query = "create table person(person_id int PRIMARY KEY," +
+            String Query = "create table person(person_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "person_input varchar(255) not null," +
                     "person_output varchar(255) not null" +
                     ");";
@@ -65,7 +72,6 @@ public class database extends SQLiteOpenHelper {
             cursor.moveToFirst();
             person p;
             do{
-
                 p = new person();
                 p.setId(cursor.getInt(0));
                 p.setInput(cursor.getString(1));
@@ -83,6 +89,16 @@ public class database extends SQLiteOpenHelper {
         }
     }
 
+    public void savePerson(int id, String input, String output){
+        try{
+            String Query = "update person set person_input = '" + input + "', person_output = '" + output + "' where person_id = " + id;
+            System.out.println(Query);
+            db.execSQL(Query);
+        }catch(Exception e){
+            Log.wtf("Error", e.toString());
+        }
+    }
+
     public void deletePerson(int id){
         try{
             String Query = "delete from person where person_id = " + id;
@@ -94,7 +110,7 @@ public class database extends SQLiteOpenHelper {
 
     public void createTablesApp() {
         try{
-            String Query = "create table app(app_id int PRIMARY KEY," +
+            String Query = "create table app(app_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "app_input varchar(255) not null," +
                     "app_output varchar(255) not null" +
                     ");";
@@ -143,6 +159,15 @@ public class database extends SQLiteOpenHelper {
         }catch(Exception e){
             Log.wtf("Error", e.toString());
             return list;
+        }
+    }
+
+    public void saveApp(int id, String input, String output){
+        try{
+            String Query = "update app set app_input = '" + input + "', app_output = '" + output + "' where app_id = " + id;
+            db.execSQL(Query);
+        }catch(Exception e){
+            Log.wtf("Error", e.toString());
         }
     }
 
