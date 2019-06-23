@@ -58,6 +58,21 @@ public class holder {
         return name;
     }
 
+    public String replacePersonName(String text){
+
+        if (personList.isEmpty()){
+            return text;
+        }
+
+        for (person x : personList){
+            if (text.toLowerCase().contains(x.getInput().toLowerCase())){
+                text = text.replace(x.getInput(), x.getOutput());
+            }
+        }
+
+        return text;
+    }
+
     private void refresh(){
         personList = db.getTablesPerson();
         appList = db.getTablesApp();
