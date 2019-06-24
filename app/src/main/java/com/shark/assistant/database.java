@@ -180,4 +180,76 @@ public class database extends SQLiteOpenHelper {
         }
     }
 
+    public void createTablesBlacklist() {
+        try{
+            String Query = "create table blacklist(blacklist_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "blacklist_input varchar(255) not null," +
+                    "blacklist_type INTEGER not null" +
+                    ");";
+            db.execSQL(Query);
+        }catch(Exception e){
+            Log.wtf("Error", e.toString());
+        }
+    }
+
+    public void insertTablesBlacklist(blacklist b){
+        try{
+            String Query = "insert into blacklist(" +
+                    "blacklist_input," +
+                    "blacklist_type" +
+                    ") values ('" +
+                    b.getInput() + "'," +
+                    b.getType() + "" +
+                    ");";
+            db.execSQL(Query);
+        }catch(Exception e){
+            Log.wtf("Error", e.toString());
+        }
+    }
+
+    public List<blacklist> getTablesBlacklist(){
+        List<blacklist> list = new ArrayList<>();
+        try{
+            String query = "select * from blacklist";
+
+            Cursor cursor = this.getWritableDatabase().rawQuery(query, null);
+            cursor.moveToFirst();
+            blacklist b;
+            do{
+
+                b = new blacklist();
+                b.setId(cursor.getInt(0));
+                b.setInput(cursor.getString(1));
+                b.setType(cursor.getInt(2));
+
+                list.add(b);
+
+            }while(cursor.moveToNext());
+
+            cursor.close();
+            return list;
+        }catch(Exception e){
+            Log.wtf("Error", e.toString());
+            return list;
+        }
+    }
+
+    public void saveBlacklist(int id, String input, int type){
+        try{
+            String Query = "update blacklist set blacklist_input = '" + input + "', blacklist_type = " + type + " where blacklist_id = " + id;
+            db.execSQL(Query);
+        }catch(Exception e){
+            Log.wtf("Error", e.toString());
+        }
+    }
+
+    public void deleteBlacklist(int id){
+        try{
+            String Query = "delete from blacklist where blacklist_id = " + id;
+            db.execSQL(Query);
+        }catch(Exception e){
+            Log.wtf("Error", e.toString());
+        }
+    }
+
 }

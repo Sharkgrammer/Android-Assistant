@@ -56,8 +56,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             pack = data.getAppName(pack);
-            title = data.getPersonName(title);
-            text = data.replacePersonName(text);
+            title = data.replaceText(title);
+            text = data.replaceText(text);
+
+            if (text == null){
+                return;
+            }
 
             String dataStr = pack + " . " + title + " . " + text;
 
