@@ -15,7 +15,7 @@ public class person {
     }
 
     public String getOutput() {
-        return output;
+        return output.toLowerCase();
     }
 
     public void setOutput(String output) {
@@ -23,7 +23,7 @@ public class person {
     }
 
     public String getInput() {
-        return input;
+        return input.toLowerCase();
     }
 
     public void setInput(String input) {

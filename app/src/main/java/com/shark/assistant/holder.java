@@ -36,12 +36,14 @@ public class holder {
         //0 = contains
         //1 = exact
         //2 = regex
+        text = text.toLowerCase();
+
         if (!blacklistList.isEmpty()){
             for (blacklist x : blacklistList){
                 switch(x.getType()){
                     case 0:
 
-                        if (text.toLowerCase().contains(x.getInput().toLowerCase())){
+                        if (text.contains(x.getInput())){
                             return null;
                         }
 
@@ -49,7 +51,7 @@ public class holder {
 
                     case 1:
 
-                        if (text.toLowerCase().equals(x.getInput().toLowerCase())){
+                        if (text.equals(x.getInput())){
                             return null;
                         }
 
@@ -69,9 +71,9 @@ public class holder {
             }
         }
 
-        if (appList.isEmpty()){
+        if (!appList.isEmpty()){
             for (app x : appList){
-                if (text.toLowerCase().equals(x.getInput().toLowerCase())){
+                if (text.contains(x.getInput())){
                     text = text.replace(x.getInput(), x.getOutput());
                 }
             }
@@ -79,7 +81,7 @@ public class holder {
 
         if (!personList.isEmpty()){
             for (person x : personList){
-                if (text.toLowerCase().contains(x.getInput().toLowerCase())){
+                if (text.contains(x.getInput())){
                     text = text.replace(x.getInput(), x.getOutput());
                 }
             }

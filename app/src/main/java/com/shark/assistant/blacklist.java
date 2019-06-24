@@ -19,7 +19,7 @@ public class blacklist {
     }
 
     public String getInput() {
-        return input;
+        return input.toLowerCase();
     }
 
     public void setInput(String input) {
