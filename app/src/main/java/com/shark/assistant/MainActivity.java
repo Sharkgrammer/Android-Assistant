@@ -27,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private EditText txtInput, txtOutput;
     private TextView lblExplain;
-    private Button btnAdd, btnDelete, btnEdit, btnNext, btnBack, btnFirst, btnLast, btnPerson, btnApp;
-    private boolean isPerson = true;
+    private Button btnAdd, btnDelete, btnEdit, btnNext, btnBack, btnFirst, btnLast, btnPerson, btnApp, btnBlacklist;
     private holder data;
-    private int mode = 0, index, maxApp, maxPerson;
+    private int mode = 0, index, maxApp, maxPerson, maxBlacklist;
     private List<app> appList;
     private List<person> personList;
+    private List<blacklist> blacklistList;
+    private int appScreen = 0;
+    private final int PERSON = 0, APP = 1, BLACKLIST = 2;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
@@ -51,15 +53,11 @@ public class MainActivity extends AppCompatActivity {
             }
             //check packages here
 
-            if (pack.contains("youtube") || title.contains("Messenger is displaying over other apps")){
-                return;
-            }
-
-            pack = data.getAppName(pack);
+            pack = data.replaceText(pack);
             title = data.replaceText(title);
             text = data.replaceText(text);
 
-            if (text == null){
+            if (pack == null || title == null || text == null){
                 return;
             }
 
@@ -103,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         btnLast = findViewById(R.id.btnLast);
         btnPerson = findViewById(R.id.btnPerson);
         btnApp = findViewById(R.id.btnApp);
+        btnBlacklist = findViewById(R.id.btnBlacklist);
 
         refresh();
         btnPersonClick(null);
@@ -112,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnNewClick(View v) {
+        System.out.println(appScreen + "  " + mode);
+
         if (mode == 0){
             mode = 1;
             btnDelete.setText(R.string.exit);
@@ -125,27 +126,73 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (mode != 2){
-                if (isPerson){
-                    data.newPerson(txtInput.getText().toString(), txtOutput.getText().toString());
-                }else{
-                    data.newApp(txtInput.getText().toString(), txtOutput.getText().toString());
+
+                switch (appScreen){
+                    case PERSON:
+                        data.newPerson(txtInput.getText().toString(), txtOutput.getText().toString());
+                        break;
+
+                    case APP:
+                        data.newApp(txtInput.getText().toString(), txtOutput.getText().toString());
+                        break;
+
+                    case BLACKLIST:
+
+                        try{
+                            int tempint = Integer.valueOf(txtOutput.getText().toString());
+                            if (tempint >= 0 && tempint <= 2){
+                                data.newBlacklist(txtInput.getText().toString(), tempint);
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Type must be between 0 and 2", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch(Exception e){
+                            Toast.makeText(getApplicationContext(), "Type must be a number", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                 }
+
             }else{
-                if (isPerson){
-                    person p = personList.get(index);
 
-                    p.setInput(txtInput.getText().toString());
-                    p.setOutput(txtOutput.getText().toString());
+                switch (appScreen){
+                    case PERSON:
+                        person p = personList.get(index);
 
-                    data.savePerson(p);
-                }else{
-                    app a = appList.get(index);
+                        p.setInput(txtInput.getText().toString());
+                        p.setOutput(txtOutput.getText().toString());
 
-                    a.setInput(txtInput.getText().toString());
-                    a.setOutput(txtOutput.getText().toString());
+                        data.savePerson(p);
+                        break;
 
-                    data.saveApp(a);
+                    case APP:
+                        app a = appList.get(index);
+
+                        a.setInput(txtInput.getText().toString());
+                        a.setOutput(txtOutput.getText().toString());
+
+                        data.saveApp(a);
+                        break;
+
+                    case BLACKLIST:
+                        blacklist b = blacklistList.get(index);
+
+                        int tempint;
+                        b.setInput(txtInput.getText().toString());
+                        try{
+                            tempint = Integer.valueOf(txtOutput.getText().toString());
+                            if (tempint < 0 || tempint > 2){
+                                Toast.makeText(getApplicationContext(), "Type must be between 0 and 2", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }catch(Exception e){
+                            Toast.makeText(getApplicationContext(), "Type must be a number", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        b.setType(tempint);
+                        data.saveBlacklist(b);
+                        break;
                 }
+
             }
 
             mode = 0;
@@ -160,7 +207,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnPersonClick(View v) {
-        isPerson = true;
+        appScreen = PERSON;
+
+        lblExplain.setText(R.string.peopleExplain);
+        txtInput.setHint(R.string.peopleInput);
+        txtOutput.setHint(R.string.peopleOutput);
 
         mode = 0;
         if ((maxPerson + 1) == 0){
@@ -168,15 +219,33 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        txtInput.setHint(R.string.peopleInput);
-        txtOutput.setHint(R.string.peopleOutput);
-        lblExplain.setText(R.string.peopleExplain);
+        index = 0;
+        populate();
+    }
+
+    public void btnBlacklistClick(View v) {
+        appScreen = BLACKLIST;
+
+        lblExplain.setText(R.string.blacklistExplain);
+        txtInput.setHint(R.string.blacklistInput);
+        txtOutput.setHint(R.string.blacklistOutput);
+
+        mode = 0;
+        if ((maxBlacklist + 1) == 0){
+            btnNewClick(null);
+            return;
+        }
+
         index = 0;
         populate();
     }
 
     public void btnAppClick(View v) {
-        isPerson = false;
+        appScreen = APP;
+
+        lblExplain.setText(R.string.appExplain);
+        txtInput.setHint(R.string.appInput);
+        txtOutput.setHint(R.string.appOutput);
 
         mode = 0;
         if ((maxApp + 1) == 0){
@@ -184,9 +253,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        txtInput.setHint(R.string.appInput);
-        txtOutput.setHint(R.string.appOutput);
-        lblExplain.setText(R.string.appExplain);
         index = 0;
         populate();
     }
@@ -205,11 +271,20 @@ public class MainActivity extends AppCompatActivity {
             deleteAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int i) {
-                   if (isPerson){
-                       data.deletePerson(personList.get(index).getId());
-                   }else{
-                       data.deleteApp(appList.get(index).getId());
-                   }
+
+                    switch (appScreen) {
+                        case PERSON:
+                            data.deletePerson(personList.get(index).getId());
+                            break;
+
+                        case APP:
+                            data.deleteApp(appList.get(index).getId());
+                            break;
+
+                        case BLACKLIST:
+                            data.deleteBlacklist(blacklistList.get(index).getId());
+                            break;
+                    }
 
                    refresh();
                    populate();
@@ -229,31 +304,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnNextClick(View v) {
-        if (isPerson){
-            if (index != maxPerson){
-                index++;
-                populate();
-            }
-        }else{
-            if (index != maxApp){
-                index++;
-                populate();
-            }
+
+        switch (appScreen){
+            case PERSON:
+                if (index == maxPerson)return;;
+                break;
+
+            case APP:
+                if (index == maxApp)return;
+                break;
+
+            case BLACKLIST:
+                if (index == maxBlacklist) return;
+                break;
         }
+
+        index++;
+        populate();
     }
 
     public void btnBackClick(View v) {
-        if (isPerson){
-            if (index != 0){
-                index--;
-                populate();
-            }
-        }else{
-            if (index != 0){
-                index--;
-                populate();
-            }
+        switch (appScreen){
+            case PERSON:
+                if (index == 0)return;;
+                break;
+
+            case APP:
+                if (index == 0)return;
+                break;
+
+            case BLACKLIST:
+                if (index == 0) return;
+                break;
         }
+
+        index--;
+        populate();
     }
 
     public void btnFirstClick(View v) {
@@ -262,25 +348,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnLastClick(View v) {
-        if (isPerson){
-            index = maxPerson;
-            populate();
-        }else{
-            index = maxApp;
-            populate();
+        switch (appScreen){
+            case PERSON:
+                index = maxPerson;
+                break;
+
+            case APP:
+                index = maxApp;
+                break;
+
+            case BLACKLIST:
+                index = maxBlacklist;
+                break;
         }
+
+        populate();
     }
 
     private void populate(){
         try{
-            if (isPerson){
-                person p = personList.get(index);
-                txtInput.setText(p.getInput());
-                txtOutput.setText(p.getOutput());
-            }else{
-                app a = appList.get(index);
-                txtInput.setText(a.getInput());
-                txtOutput.setText(a.getOutput());
+            switch (appScreen){
+                case PERSON:
+                    person p = personList.get(index);
+                    txtInput.setText(p.getInput());
+                    txtOutput.setText(p.getOutput());
+                    break;
+
+                case APP:
+                    app a = appList.get(index);
+                    txtInput.setText(a.getInput());
+                    txtOutput.setText(a.getOutput());
+                    break;
+
+                case BLACKLIST:
+                    blacklist b = blacklistList.get(index);
+                    txtInput.setText(b.getInput());
+                    txtOutput.setText(String.valueOf(b.getType()));
+                    break;
             }
         }
         catch(Exception ex){
@@ -294,10 +398,12 @@ public class MainActivity extends AppCompatActivity {
     private void refresh(){
         appList = data.getAppList();
         personList = data.getPersonList();
+        blacklistList = data.getBlacklistList();
 
         index = 0;
         maxApp = appList.size() - 1;
         maxPerson = personList.size() - 1;
+        maxBlacklist = blacklistList.size() - 1;
     }
 
     //0 = normal running, 1 is add, 2 is edit
@@ -317,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
                 btnLast.setEnabled(true);
                 btnPerson.setEnabled(true);
                 btnApp.setEnabled(true);
+                btnBlacklist.setEnabled(true);
 
                 txtInput.getText().clear();
                 txtOutput.getText().clear();
@@ -334,6 +441,7 @@ public class MainActivity extends AppCompatActivity {
                 btnLast.setEnabled(false);
                 btnPerson.setEnabled(false);
                 btnApp.setEnabled(false);
+                btnBlacklist.setEnabled(false);
 
                 txtInput.getText().clear();
                 txtOutput.getText().clear();
@@ -351,6 +459,7 @@ public class MainActivity extends AppCompatActivity {
                 btnLast.setEnabled(false);
                 btnPerson.setEnabled(false);
                 btnApp.setEnabled(false);
+                btnBlacklist.setEnabled(false);
                 break;
         }
     }

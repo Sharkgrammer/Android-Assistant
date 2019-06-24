@@ -19,6 +19,7 @@ public class holder {
         //make tables if exist
         db.createTablesApp();
         db.createTablesPerson();
+        db.createTablesBlacklist();
 
         refresh();
     }
@@ -29,21 +30,6 @@ public class holder {
 
     public List<person> getPersonList() {
         return personList;
-    }
-
-    public String getAppName(String name){
-
-        if (appList.isEmpty()){
-            return name;
-        }
-
-        for (app x : appList){
-            if (x.getInput().toLowerCase().equals(name.toLowerCase())){
-                return x.getOutput();
-            }
-        }
-
-        return name;
     }
 
     public String replaceText(String text){
@@ -79,6 +65,14 @@ public class holder {
                         }
 
                         break;
+                }
+            }
+        }
+
+        if (appList.isEmpty()){
+            for (app x : appList){
+                if (text.toLowerCase().equals(x.getInput().toLowerCase())){
+                    text = text.replace(x.getInput(), x.getOutput());
                 }
             }
         }
@@ -138,10 +132,6 @@ public class holder {
 
     public List<blacklist> getBlacklistList() {
         return blacklistList;
-    }
-
-    public void setBlacklistList(List<blacklist> blacklistList) {
-        this.blacklistList = blacklistList;
     }
 
     public void newBlacklist(String input, int type){

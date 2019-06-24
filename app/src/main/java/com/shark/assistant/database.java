@@ -201,6 +201,7 @@ public class database extends SQLiteOpenHelper {
                     b.getInput() + "'," +
                     b.getType() + "" +
                     ");";
+            System.out.println(Query);
             db.execSQL(Query);
         }catch(Exception e){
             Log.wtf("Error", e.toString());
