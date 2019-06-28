@@ -12,8 +12,10 @@ public class holder {
     private List<person> personList;
     private List<blacklist> blacklistList;
     private database db;
+    private Context context;
 
-    public holder(Context context){
+    public holder(Context c){
+        context = c;
         //Loaded appLIst and personList here from whatever data source
         db = new database(context);
         //make tables if exist
@@ -38,6 +40,15 @@ public class holder {
         //2 = regex
         text = text.toLowerCase();
 
+        //Check if its a link here
+        Pattern pattern = Pattern.compile("(http)(.)?\\:\\/\\/(\\w*\\.?\\-?\\??\\=?\\&?\\/*)*");
+        Matcher matcher = pattern.matcher(text);
+
+        if (matcher.find()){
+            text = text.replace(matcher.group(), context.getResources().getString(R.string.linkText));
+        }
+
+
         if (!blacklistList.isEmpty()){
             for (blacklist x : blacklistList){
                 switch(x.getType()){
@@ -59,8 +70,8 @@ public class holder {
 
                     case 2:
 
-                        Pattern pattern = Pattern.compile(x.getInput());
-                        Matcher matcher = pattern.matcher(text);
+                        pattern = Pattern.compile(x.getInput());
+                        matcher = pattern.matcher(text);
 
                         if (matcher.find()){
                             return null;

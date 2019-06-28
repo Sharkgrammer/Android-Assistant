@@ -14,4 +14,5 @@
     <string name="save">Save</string>
     <string name="add">New</string>
     <string name="exit">Exit</string>
+    <string name="linkText"> A Link </string>
 </resources>
