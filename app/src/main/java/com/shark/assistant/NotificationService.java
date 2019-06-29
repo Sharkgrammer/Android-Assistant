@@ -29,6 +29,9 @@ public class NotificationService extends NotificationListenerService {
         String title = extras.getString("android.title");
         String text = extras.getString("android.text");
 
+        if (pack == null) pack = "";
+        if (title == null) title = "";
+        if (text == null) text = "";
 
         Intent msg = new Intent("Msg");
         msg.putExtra("package", pack);

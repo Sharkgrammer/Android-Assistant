@@ -12,6 +12,7 @@ public class processor {
     private List<app> appList;
     private List<person> personList;
     private List<blacklist> blacklistList;
+    private final int CONTAINS = 0, EXACT = 1, REGEX = 2;
 
     public processor(Context c){
         context = c;
@@ -22,9 +23,6 @@ public class processor {
     }
 
     public String processText(String text){
-        //0 = contains
-        //1 = exact
-        //2 = regex
         text = text.toLowerCase();
 
         //Check if its a link here
@@ -38,7 +36,7 @@ public class processor {
         if (!blacklistList.isEmpty()){
             for (blacklist x : blacklistList){
                 switch(x.getType()){
-                    case 0:
+                    case CONTAINS:
 
                         if (text.contains(x.getInput())){
                             return null;
@@ -46,7 +44,7 @@ public class processor {
 
                         break;
 
-                    case 1:
+                    case EXACT:
 
                         if (text.equals(x.getInput())){
                             return null;
@@ -54,7 +52,7 @@ public class processor {
 
                         break;
 
-                    case 2:
+                    case REGEX:
 
                         pattern = Pattern.compile(x.getInput());
                         matcher = pattern.matcher(text);

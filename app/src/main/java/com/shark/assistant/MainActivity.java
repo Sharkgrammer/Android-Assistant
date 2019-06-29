@@ -47,10 +47,6 @@ public class MainActivity extends AppCompatActivity {
             Log.wtf("Title", title);
             Log.wtf("Text", text);
 
-            if (pack == null) pack = "";
-            if (title == null) title = "";
-            if (text == null) text = "";
-
             String dataStr = pack + " . " + title + " . " + text;
             processor pro = new processor(MainActivity.this);
 
