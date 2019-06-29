@@ -43,25 +43,22 @@ public class MainActivity extends AppCompatActivity {
             String title = intent.getStringExtra("title");
             String text = intent.getStringExtra("text");
 
-            Log.wtf("Package",pack);
-            Log.wtf("Title",title);
-            Log.wtf("Text",text);
+            Log.wtf("Package", pack);
+            Log.wtf("Title", title);
+            Log.wtf("Text", text);
 
-
-            if (pack == null || title == null || text == null){
-                return;
-            }
-            //check packages here
-
-            pack = data.replaceText(pack);
-            title = data.replaceText(title);
-            text = data.replaceText(text);
-
-            if (pack == null || title == null || text == null){
-                return;
-            }
+            if (pack == null) pack = "";
+            if (title == null) title = "";
+            if (text == null) text = "";
 
             String dataStr = pack + " . " + title + " . " + text;
+            processor pro = new processor(MainActivity.this);
+
+            dataStr = pro.processText(dataStr);
+
+            if (dataStr == null){
+                return;
+            }
 
             Log.i("TTS", dataStr);
             int speechStatus = textToSpeech.speak(dataStr, TextToSpeech.QUEUE_FLUSH, null);
