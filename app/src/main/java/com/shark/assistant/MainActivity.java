@@ -318,20 +318,20 @@ public class MainActivity extends AppCompatActivity {
             String titlePart = "";
             switch (appScreen){
                 case PERSON:
-                    input.setText(getResources().getString(R.string.peopleInput));
-                    output.setText(getResources().getString(R.string.peopleOutput));
+                    input.setHint(getResources().getString(R.string.peopleInput));
+                    output.setHint(getResources().getString(R.string.peopleOutput));
                     titlePart = " person";
                     break;
 
                 case APP:
-                    input.setText(getResources().getString(R.string.appInput));
-                    output.setText(getResources().getString(R.string.appOutput));
+                    input.setHint(getResources().getString(R.string.appInput));
+                    output.setHint(getResources().getString(R.string.appOutput));
                     titlePart = " app";
                     break;
 
                 case BLACKLIST:
-                    input.setText(getResources().getString(R.string.appInput));
-                    output.setText(getResources().getString(R.string.appOutput));
+                    input.setHint(getResources().getString(R.string.appInput));
+                    output.setHint(getResources().getString(R.string.appOutput));
                     titlePart = " blacklist item";
                     break;
             }
