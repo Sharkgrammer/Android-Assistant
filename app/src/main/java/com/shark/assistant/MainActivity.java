@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private EditText txtInput, txtOutput;
     private TextView lblExplain;
-    private Button btnAdd, btnDelete, btnEdit, btnNext, btnBack, btnFirst, btnLast, btnPerson, btnApp, btnBlacklist;
+    private Button btnPerson, btnApp, btnBlacklist;
+    private ImageButton btnAdd, btnDelete, btnEdit, btnNext, btnFirst, btnLast, btnBack;
     private holder data;
     private int mode = 0, index, maxApp, maxPerson, maxBlacklist;
     private List<app> appList;
@@ -108,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (mode == 0){
             mode = 1;
-            btnDelete.setText(R.string.exit);
-            btnAdd.setText(R.string.save);
+            btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.exit));
+            btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.save));
             layoutMod();
         }else{
 
@@ -190,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
 
             mode = 0;
 
-            btnDelete.setText(R.string.delete);
-            btnAdd.setText(R.string.add);
+            btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.delete));
+            btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.add));
 
             refresh();
             layoutMod();
@@ -253,8 +255,8 @@ public class MainActivity extends AppCompatActivity {
     public void btnDeleteClick(View v) {
         if (mode != 0){
             mode = 0;
-            btnDelete.setText(R.string.delete);
-            btnAdd.setText(R.string.add);
+            btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.delete));
+            btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.add));
             layoutMod();
 
             populate();
@@ -291,8 +293,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnEditClick(View v) {
         mode = 2;
-        btnDelete.setText(R.string.exit);
-        btnAdd.setText(R.string.save);
+        btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.exit));
+        btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.save));
         layoutMod();
     }
 

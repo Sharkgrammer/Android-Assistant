@@ -62,137 +62,138 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.017" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnNew"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="80sp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/buttonborder"
         android:onClick="btnNewClick"
-        android:text="New"
-        android:textColor="@color/colorText"
-        android:background="@drawable/buttonborder"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintHorizontal_bias="0.18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81" />
+        app:layout_constraintVertical_bias="0.629"
+        app:srcCompat="@drawable/add" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="80sp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/buttonborder"
         android:onClick="btnEditClick"
+        android:scaleType="centerInside"
         android:textColor="@color/colorText"
-        android:background="@drawable/buttonborder"
-        android:text="Edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.629"
+        app:srcCompat="@drawable/edit" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="80sp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/buttonborder"
         android:onClick="btnNextClick"
-        android:text="Next"
-        android:textColor="@color/colorText"
-        android:background="@drawable/buttonborder"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.682"
+        app:layout_constraintHorizontal_bias="0.656"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.561" />
+        app:layout_constraintVertical_bias="0.811"
+        app:srcCompat="@drawable/next" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnFirst"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="80sp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/buttonborder"
         android:onClick="btnFirstClick"
-        android:textColor="@color/colorText"
-        android:background="@drawable/buttonborder"
-        android:text="First"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_bias="0.811"
+        app:srcCompat="@drawable/first" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnLast"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="80sp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:textColor="@color/colorText"
-        android:background="@drawable/buttonborder"
         android:layout_marginTop="8dp"
+        android:background="@drawable/buttonborder"
         android:onClick="btnLastClick"
-        android:text="Last"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.682"
+        app:layout_constraintHorizontal_bias="0.972"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_bias="0.811"
+        app:srcCompat="@drawable/last" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="btnBackClick"
-        android:textColor="@color/colorText"
         android:background="@drawable/buttonborder"
-        android:text="Back"
+        android:onClick="btnBackClick"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintHorizontal_bias="0.329"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.561" />
+        app:layout_constraintVertical_bias="0.811"
+        app:srcCompat="@drawable/back" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnDel"
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
+        android:layout_width="80sp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColor="@color/colorText"
         android:background="@drawable/buttonborder"
         android:onClick="btnDeleteClick"
-        android:text="Delete"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.682"
+        app:layout_constraintHorizontal_bias="0.815"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81" />
+        app:layout_constraintVertical_bias="0.629"
+        app:srcCompat="@drawable/delete" />
 
     <EditText
         android:id="@+id/txtInput"
@@ -210,7 +211,7 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.256"
+        app:layout_constraintVertical_bias="0.267"
         tools:text="Person Name" />
 
     <EditText
