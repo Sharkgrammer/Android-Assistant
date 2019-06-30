@@ -16,4 +16,9 @@
     <string name="exit">Exit</string>
     <string name="edit">Edit</string>
     <string name="linkText"> A Link </string>
+    <string name="people">People</string>
+    <string name="apps">Apps</string>
+    <string name="blacklist">Blacklist</string>
+    <string name="addDialog">Adding a new</string>
+    <string name="editDialog">Editing</string>
 </resources>

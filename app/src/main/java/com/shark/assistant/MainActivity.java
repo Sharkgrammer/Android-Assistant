@@ -33,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
     private TextView lblExplain;
-    private Button btnPerson, btnApp, btnBlacklist;
     private holder data;
-    private int mode = 0, index, maxApp, maxPerson, maxBlacklist, pi;
+    private int mode = 0, pi;
     private List<app> appList;
     private List<person> personList;
     private List<blacklist> blacklistList;
@@ -90,320 +89,85 @@ public class MainActivity extends AppCompatActivity {
 
         data = new holder(this);
         data.createTables();
+
         lblExplain = findViewById(R.id.lblExplain);
-        btnPerson = findViewById(R.id.btnPerson);
-        btnApp = findViewById(R.id.btnApp);
-        btnBlacklist = findViewById(R.id.btnBlacklist);
         sclMain = findViewById(R.id.sclMain);
         sclMainLin = findViewById(R.id.sclMainLin);
 
         refresh();
         btnPersonClick(null);
-        if (mode == 0) btnFirstClick(null);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(onNotice, new IntentFilter("Msg"));
     }
 
     public void btnNewClick(View v) {
-        System.out.println(appScreen + "  " + mode);
-
-        /*if (mode == 0){
-            mode = 1;
-            btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.exit));
-            btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.save));
-            layoutMod();
-        }else{
-
-            if (txtInput.getText().length() < 1 || txtOutput.getText().length() < 1){
-                Toast.makeText(getApplicationContext(), "Textboxes cannot be blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (mode != 2){
-
-                switch (appScreen){
-                    case PERSON:
-                        data.newPerson(txtInput.getText().toString(), txtOutput.getText().toString());
-                        break;
-
-                    case APP:
-                        data.newApp(txtInput.getText().toString(), txtOutput.getText().toString());
-                        break;
-
-                    case BLACKLIST:
-
-                        try{
-                            int tempint = Integer.valueOf(txtOutput.getText().toString());
-                            if (tempint >= 0 && tempint <= 2){
-                                data.newBlacklist(txtInput.getText().toString(), tempint);
-                            }else{
-                                Toast.makeText(getApplicationContext(), "Type must be between 0 and 2", Toast.LENGTH_SHORT).show();
-                            }
-                        }catch(Exception e){
-                            Toast.makeText(getApplicationContext(), "Type must be a number", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                }
-
-            }else{
-
-                switch (appScreen){
-                    case PERSON:
-                        person p = personList.get(index);
-
-                        p.setInput(txtInput.getText().toString());
-                        p.setOutput(txtOutput.getText().toString());
-
-                        data.savePerson(p);
-                        break;
-
-                    case APP:
-                        app a = appList.get(index);
-
-                        a.setInput(txtInput.getText().toString());
-                        a.setOutput(txtOutput.getText().toString());
-
-                        data.saveApp(a);
-                        break;
-
-                    case BLACKLIST:
-                        blacklist b = blacklistList.get(index);
-
-                        int tempint;
-                        b.setInput(txtInput.getText().toString());
-                        try{
-                            tempint = Integer.valueOf(txtOutput.getText().toString());
-                            if (tempint < 0 || tempint > 2){
-                                Toast.makeText(getApplicationContext(), "Type must be between 0 and 2", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        }catch(Exception e){
-                            Toast.makeText(getApplicationContext(), "Type must be a number", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        b.setType(tempint);
-                        data.saveBlacklist(b);
-                        break;
-                }
-
-            }
-
-            mode = 0;
-
-            btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.delete));
-            btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.add));
-
-            refresh();
-            layoutMod();
-            populate();
-        }*/
+        popupDialog(null);
     }
 
     public void btnPersonClick(View v) {
         appScreen = PERSON;
-
         lblExplain.setText(R.string.peopleExplain);
-       // txtInput.setHint(R.string.peopleInput);
-        //txtOutput.setHint(R.string.peopleOutput);
-
-        mode = 0;
-        if ((maxPerson + 1) == 0){
-            btnNewClick(null);
-            return;
-        }
-
-        index = 0;
-        populate();
+        refresh();
     }
 
     public void btnBlacklistClick(View v) {
         appScreen = BLACKLIST;
-
         lblExplain.setText(R.string.blacklistExplain);
-    //  /  //txtInput.setHint(R.string.blacklistInput);
-       // txtOutput.setHint(R.string.blacklistOutput);
-
-        mode = 0;
-        if ((maxBlacklist + 1) == 0){
-            btnNewClick(null);
-            return;
-        }
-
-        index = 0;
-        populate();
+        refresh();
     }
 
     public void btnAppClick(View v) {
         appScreen = APP;
-
         lblExplain.setText(R.string.appExplain);
-       // txtInput.setHint(R.string.appInput);
-       // txtOutput.setHint(R.string.appOutput);
-
-        mode = 0;
-        if ((maxApp + 1) == 0){
-            btnNewClick(null);
-            return;
-        }
-
-        index = 0;
-        populate();
+        refresh();
     }
 
-    public void btnDeleteClick(Object objDel) {
-        if (mode != 0){
-            mode = 0;
-           // btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.delete));
-           // btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.add));
-            layoutMod();
-            populate();
-        }else{
-            final Object obj = objDel;
-            String ans = "";
-            switch (appScreen) {
-                case PERSON:
-                    ans = ((person) obj).getInput();
-                    break;
+    public void btnDeleteClick(final Object obj) {
+        String ans = "";
+        switch (appScreen) {
+            case PERSON:
+                ans = ((person) obj).getInput();
+                break;
 
-                case APP:
-                    ans = ((app) obj).getInput();
-                    break;
+            case APP:
+                ans = ((app) obj).getInput();
+                break;
 
-                case BLACKLIST:
-                    ans = ((blacklist) obj).getInput();
-                    break;
-            }
+            case BLACKLIST:
+                ans = ((blacklist) obj).getInput();
+                break;
+        }
 
-            AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
-            deleteAlert.setMessage("Are you sure you want to delete " + ans + "?");
-            deleteAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int i) {
+        AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
+        deleteAlert.setMessage("Are you sure you want to delete " + ans + "?");
+        deleteAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
 
-                    switch (appScreen) {
-                        case PERSON:
-                            data.deletePerson(((person) obj).getId());
-                            break;
+                switch (appScreen) {
+                    case PERSON:
+                        data.deletePerson(((person) obj).getId());
+                        break;
 
-                        case APP:
-                            data.deleteApp(((app) obj).getId());
-                            break;
+                    case APP:
+                        data.deleteApp(((app) obj).getId());
+                        break;
 
-                        case BLACKLIST:
-                            data.deleteBlacklist(((blacklist) obj).getId());
-                            break;
-                    }
-
-                   refresh();
-                   populate();
+                    case BLACKLIST:
+                        data.deleteBlacklist(((blacklist) obj).getId());
+                        break;
                 }
-            });
-            deleteAlert.setNegativeButton("No", null);
-            deleteAlert.setCancelable(true);
-            deleteAlert.show();
-        }
-    }
 
-    public void btnEditClick(View v) {
-        mode = 2;
-       // btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.exit));
-       // btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.save));
-        layoutMod();
-    }
-
-    public void btnNextClick(View v) {
-
-        switch (appScreen){
-            case PERSON:
-                if (index == maxPerson)return;;
-                break;
-
-            case APP:
-                if (index == maxApp)return;
-                break;
-
-            case BLACKLIST:
-                if (index == maxBlacklist) return;
-                break;
-        }
-
-        index++;
-        populate();
-    }
-
-    public void btnBackClick(View v) {
-        switch (appScreen){
-            case PERSON:
-                if (index == 0)return;;
-                break;
-
-            case APP:
-                if (index == 0)return;
-                break;
-
-            case BLACKLIST:
-                if (index == 0) return;
-                break;
-        }
-
-        index--;
-        populate();
-    }
-
-    public void btnFirstClick(View v) {
-        index = 0;
-        populate();
-    }
-
-    public void btnLastClick(View v) {
-        switch (appScreen){
-            case PERSON:
-                index = maxPerson;
-                break;
-
-            case APP:
-                index = maxApp;
-                break;
-
-            case BLACKLIST:
-                index = maxBlacklist;
-                break;
-        }
-
-        populate();
-    }
-
-    private void populate(){
-        try{
-            switch (appScreen){
-                case PERSON:
-                    person p = personList.get(index);
-                   /// txtInput.setText(p.getInput());
-                   // txtOutput.setText(p.getOutput());
-                    break;
-
-                case APP:
-                    app a = appList.get(index);
-                   // txtInput.setText(a.getInput());
-                   // txtOutput.setText(a.getOutput());
-                    break;
-
-                case BLACKLIST:
-                    blacklist b = blacklistList.get(index);
-                  //  txtInput.setText(b.getInput());
-                  //  txtOutput.setText(String.valueOf(b.getType()));
-                    break;
+                refresh();
             }
+        });
+        deleteAlert.setNegativeButton("No", null);
+        deleteAlert.setCancelable(true);
+        deleteAlert.show();
+    }
 
-            fillScrollLayout();
-        }
-        catch(Exception ex){
-            Log.wtf("Error", ex.toString());
-
-            mode = 1;
-            layoutMod();
-        }
+    public void btnEditClick(final Object obj) {
+        popupDialog(obj);
     }
 
     private void refresh(){
@@ -411,70 +175,8 @@ public class MainActivity extends AppCompatActivity {
         personList = data.getPersonList();
         blacklistList = data.getBlacklistList();
 
-        index = 0;
-        maxApp = appList.size() - 1;
-        maxPerson = personList.size() - 1;
-        maxBlacklist = blacklistList.size() - 1;
+        fillScrollLayout();
     }
-
-    //0 = normal running, 1 is add, 2 is edit
-    private void layoutMod(){
-/*
-        switch(mode){
-            case 0:
-                txtInput.setEnabled(false);
-                txtOutput.setEnabled(false);
-
-                btnAdd.setEnabled(true);
-                btnDelete.setEnabled(true);
-                btnEdit.setEnabled(true);
-                btnNext.setEnabled(true);
-                btnBack.setEnabled(true);
-                btnFirst.setEnabled(true);
-                btnLast.setEnabled(true);
-                btnPerson.setEnabled(true);
-                btnApp.setEnabled(true);
-                btnBlacklist.setEnabled(true);
-
-                txtInput.getText().clear();
-                txtOutput.getText().clear();
-                break;
-            case 1:
-                txtInput.setEnabled(true);
-                txtOutput.setEnabled(true);
-
-                btnAdd.setEnabled(true);
-                btnDelete.setEnabled(true);
-                btnEdit.setEnabled(false);
-                btnNext.setEnabled(false);
-                btnBack.setEnabled(false);
-                btnFirst.setEnabled(false);
-                btnLast.setEnabled(false);
-                btnPerson.setEnabled(false);
-                btnApp.setEnabled(false);
-                btnBlacklist.setEnabled(false);
-
-                txtInput.getText().clear();
-                txtOutput.getText().clear();
-                break;
-            case 2:
-                txtInput.setEnabled(true);
-                txtOutput.setEnabled(true);
-
-                btnAdd.setEnabled(true);
-                btnDelete.setEnabled(true);
-                btnEdit.setEnabled(false);
-                btnNext.setEnabled(false);
-                btnBack.setEnabled(false);
-                btnFirst.setEnabled(false);
-                btnLast.setEnabled(false);
-                btnPerson.setEnabled(false);
-                btnApp.setEnabled(false);
-                btnBlacklist.setEnabled(false);
-                break;
-        }*/
-    }
-
 
 
     private void fillScrollLayout(){
@@ -505,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         app app;
         blacklist blacklist;
         TextView input, output;
+
         for (int i = 0; i < temp.size(); i++) {
             final View Child = LayoutInflater.from(this).inflate(R.layout.item, null);
             pi = i;
@@ -515,19 +218,21 @@ public class MainActivity extends AppCompatActivity {
 
             final TextView ID = (TextView) Child.findViewById(R.id.itemId);
 
-            Child.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //PostClicked(ID.getText().toString());
-                }
-            });
-
             final Button btnDel = Child.findViewById(R.id.itemDelete);
-            final Object objDel = obj;
+            final Button btnEdit = Child.findViewById(R.id.itemEdit);
+            final Object objMain = obj;
+
             btnDel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    btnDeleteClick(objDel);
+                    btnDeleteClick(objMain);
+                }
+            });
+
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btnEditClick(objMain);
                 }
             });
 
@@ -561,6 +266,173 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void popupDialog(final Object obj){
+
+        LayoutInflater li = LayoutInflater.from(this);
+        View dialog = li.inflate(R.layout.dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(dialog);
+
+        person per;
+        app app;
+        blacklist blacklist;
+        final EditText input = (EditText) dialog.findViewById(R.id.dialogInput);
+        final EditText output = (EditText) dialog.findViewById(R.id.dialogOutput);
+        final TextView ID = (TextView) dialog.findViewById(R.id.dialogID);
+        Button save = (Button) dialog.findViewById(R.id.dialogBtnSave);
+        Button exit = (Button) dialog.findViewById(R.id.dialogBtnExit);
+
+        if (obj != null){
+            String titlePart = "";
+            switch (appScreen){
+                case PERSON:
+                    per = (person) obj;
+                    ID.setText(String.valueOf(per.getId()));
+                    input.setText(per.getInput());
+                    output.setText(per.getOutput());
+                    titlePart = " person \"" + per.getInput() + "\"";
+                    break;
+
+                case APP:
+                    app = (app) obj;
+                    ID.setText(String.valueOf(app.getId()));
+                    input.setText(app.getInput());
+                    output.setText(app.getOutput());
+                    titlePart = " app \"" + app.getInput() + "\"";
+                    break;
+
+                case BLACKLIST:
+                    blacklist = (blacklist) obj;
+                    ID.setText(String.valueOf(blacklist.getId()));
+                    input.setText(blacklist.getInput());
+                    output.setText(String.valueOf(blacklist.getType()));
+                    titlePart = " blacklist item \"" + blacklist.getInput() + "\"";
+                    break;
+            }
+
+            alertDialogBuilder.setTitle(getResources().getString(R.string.editDialog) + titlePart);
+        }
+        else{
+            String titlePart = "";
+            switch (appScreen){
+                case PERSON:
+                    input.setText(getResources().getString(R.string.peopleInput));
+                    output.setText(getResources().getString(R.string.peopleOutput));
+                    titlePart = " person";
+                    break;
+
+                case APP:
+                    input.setText(getResources().getString(R.string.appInput));
+                    output.setText(getResources().getString(R.string.appOutput));
+                    titlePart = " app";
+                    break;
+
+                case BLACKLIST:
+                    input.setText(getResources().getString(R.string.appInput));
+                    output.setText(getResources().getString(R.string.appOutput));
+                    titlePart = " blacklist item";
+                    break;
+            }
+
+            alertDialogBuilder.setTitle(getResources().getString(R.string.addDialog) + titlePart);
+        }
+
+        final AlertDialog alert = alertDialogBuilder.show();
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                person p = new person();
+                app a = new app();
+                blacklist b = new blacklist();
+
+                int intID = Integer.parseInt(ID.getText().toString());
+                String intInput = input.getText().toString();
+                String intOutput = output.getText().toString();
+
+                if (intInput.isEmpty() || intOutput.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Textboxes must have text", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (obj == null){
+                    switch (appScreen){
+                        case PERSON:
+                            data.newPerson(intInput, intOutput);
+                            break;
+
+                        case APP:
+                            data.newApp(intInput, intOutput);
+                            break;
+
+                        case BLACKLIST:
+
+                            try{
+                                int tempint = Integer.valueOf(intOutput);
+                                if (tempint >= 0 && tempint <= 2){
+                                    data.newBlacklist(intInput, tempint);
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "Type must be between 0 and 2", Toast.LENGTH_SHORT).show();
+                                }
+                            }catch(Exception e){
+                                Toast.makeText(getApplicationContext(), "Type must be a number", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                    }
+                }else{
+                    switch (appScreen){
+                        case PERSON:
+                            p.setId(intID);
+                            p.setInput(intInput);
+                            p.setOutput(intOutput);
+
+                            data.savePerson(p);
+                            break;
+
+                        case APP:
+                            a.setId(intID);
+                            a.setInput(intInput);
+                            a.setOutput(intOutput);
+
+                            data.saveApp(a);
+                            break;
+
+                        case BLACKLIST:
+                            int tempint;
+                            b.setInput(intInput);
+                            try{
+                                tempint = Integer.valueOf(intOutput);
+                                if (tempint < 0 || tempint > 2){
+                                    Toast.makeText(getApplicationContext(), "Type must be between 0 and 2", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }catch(Exception e){
+                                Toast.makeText(getApplicationContext(), "Type must be a number", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            b.setType(tempint);
+                            data.saveBlacklist(b);
+                            break;
+                    }
+
+                }
+
+                alert.dismiss();
+                refresh();
+
+            }
+        });
+
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alert.dismiss();
+            }
+        });
+
     }
 
 }

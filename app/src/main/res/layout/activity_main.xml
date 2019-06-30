@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mainborderoverall"
     tools:context=".MainActivity">
 
     <Button
@@ -14,9 +15,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/buttonborder"
+        android:theme="@style/PrimaryRaisedButton"
         android:onClick="btnBlacklistClick"
-        android:text="Blacklist"
+        android:text="@string/blacklist"
         android:textColor="@color/colorTextLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,21 +27,20 @@
 
     <Button
         android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="260dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:onClick="btnNewClick"
         android:text="@string/add"
         android:theme="@style/PrimaryRaisedButton"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/sclMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.161" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBlacklist" />
 
     <Button
         android:id="@+id/btnPerson"
@@ -50,9 +50,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/buttonborder"
+        android:theme="@style/PrimaryRaisedButton"
         android:onClick="btnPersonClick"
-        android:text="People"
+        android:text="@string/people"
         android:textColor="@color/colorTextLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,9 +69,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/buttonborder"
+        android:theme="@style/PrimaryRaisedButton"
         android:onClick="btnAppClick"
-        android:text="Apps"
+        android:text="@string/apps"
         android:textColor="@color/colorTextLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,15 +84,15 @@
         android:id="@+id/lblExplain"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="430dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/textborder"
+        app:layout_constraintBottom_toTopOf="@+id/sclMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnAdd"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBlacklist" />
 
     <ScrollView
         android:id="@+id/sclMain"
