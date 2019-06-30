@@ -13,14 +13,16 @@ public class holder {
     private List<blacklist> blacklistList;
     private database db;
 
-    public holder(Context c){
-        //Loaded appLIst and personList here from whatever data source
-        db = new database(c);
+    public void createTables(){
         //make tables if exist
         db.createTablesApp();
         db.createTablesPerson();
         db.createTablesBlacklist();
+    }
 
+    public holder(Context c){
+        db = new database(c);
+        //Loaded appLIst and personList here from whatever data source
         refresh();
     }
 

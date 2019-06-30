@@ -12,7 +12,8 @@
     <string name="blacklistExplain">Enter something here for it to be ignored. 0 for matching, 1 for exact and 2 for regex</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
-    <string name="add">New</string>
+    <string name="add">Add New</string>
     <string name="exit">Exit</string>
+    <string name="edit">Edit</string>
     <string name="linkText"> A Link </string>
 </resources>

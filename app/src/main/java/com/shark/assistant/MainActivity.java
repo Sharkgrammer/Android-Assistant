@@ -11,13 +11,19 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -26,17 +32,17 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
-    private EditText txtInput, txtOutput;
     private TextView lblExplain;
     private Button btnPerson, btnApp, btnBlacklist;
-    private ImageButton btnAdd, btnDelete, btnEdit, btnNext, btnFirst, btnLast, btnBack;
     private holder data;
-    private int mode = 0, index, maxApp, maxPerson, maxBlacklist;
+    private int mode = 0, index, maxApp, maxPerson, maxBlacklist, pi;
     private List<app> appList;
     private List<person> personList;
     private List<blacklist> blacklistList;
     private int appScreen = 0;
     private final int PERSON = 0, APP = 1, BLACKLIST = 2;
+    private ScrollView sclMain;
+    private LinearLayout sclMainLin;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
@@ -82,21 +88,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        data = new holder(getApplicationContext());
-        txtInput = findViewById(R.id.txtInput);
-        txtOutput = findViewById(R.id.txtOutput);
+        data = new holder(this);
+        data.createTables();
         lblExplain = findViewById(R.id.lblExplain);
-
-        btnAdd = findViewById(R.id.btnNew);
-        btnDelete = findViewById(R.id.btnDel);
-        btnEdit = findViewById(R.id.btnEdit);
-        btnNext = findViewById(R.id.btnNext);
-        btnBack = findViewById(R.id.btnBack);
-        btnFirst = findViewById(R.id.btnFirst);
-        btnLast = findViewById(R.id.btnLast);
         btnPerson = findViewById(R.id.btnPerson);
         btnApp = findViewById(R.id.btnApp);
         btnBlacklist = findViewById(R.id.btnBlacklist);
+        sclMain = findViewById(R.id.sclMain);
+        sclMainLin = findViewById(R.id.sclMainLin);
 
         refresh();
         btnPersonClick(null);
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnNewClick(View v) {
         System.out.println(appScreen + "  " + mode);
 
-        if (mode == 0){
+        /*if (mode == 0){
             mode = 1;
             btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.exit));
             btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.save));
@@ -198,15 +197,15 @@ public class MainActivity extends AppCompatActivity {
             refresh();
             layoutMod();
             populate();
-        }
+        }*/
     }
 
     public void btnPersonClick(View v) {
         appScreen = PERSON;
 
         lblExplain.setText(R.string.peopleExplain);
-        txtInput.setHint(R.string.peopleInput);
-        txtOutput.setHint(R.string.peopleOutput);
+       // txtInput.setHint(R.string.peopleInput);
+        //txtOutput.setHint(R.string.peopleOutput);
 
         mode = 0;
         if ((maxPerson + 1) == 0){
@@ -222,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
         appScreen = BLACKLIST;
 
         lblExplain.setText(R.string.blacklistExplain);
-        txtInput.setHint(R.string.blacklistInput);
-        txtOutput.setHint(R.string.blacklistOutput);
+    //  /  //txtInput.setHint(R.string.blacklistInput);
+       // txtOutput.setHint(R.string.blacklistOutput);
 
         mode = 0;
         if ((maxBlacklist + 1) == 0){
@@ -239,8 +238,8 @@ public class MainActivity extends AppCompatActivity {
         appScreen = APP;
 
         lblExplain.setText(R.string.appExplain);
-        txtInput.setHint(R.string.appInput);
-        txtOutput.setHint(R.string.appOutput);
+       // txtInput.setHint(R.string.appInput);
+       // txtOutput.setHint(R.string.appOutput);
 
         mode = 0;
         if ((maxApp + 1) == 0){
@@ -252,32 +251,47 @@ public class MainActivity extends AppCompatActivity {
         populate();
     }
 
-    public void btnDeleteClick(View v) {
+    public void btnDeleteClick(Object objDel) {
         if (mode != 0){
             mode = 0;
-            btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.delete));
-            btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.add));
+           // btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.delete));
+           // btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.add));
             layoutMod();
-
             populate();
         }else{
+            final Object obj = objDel;
+            String ans = "";
+            switch (appScreen) {
+                case PERSON:
+                    ans = ((person) obj).getInput();
+                    break;
+
+                case APP:
+                    ans = ((app) obj).getInput();
+                    break;
+
+                case BLACKLIST:
+                    ans = ((blacklist) obj).getInput();
+                    break;
+            }
+
             AlertDialog.Builder deleteAlert = new AlertDialog.Builder(this);
-            deleteAlert.setMessage("Are you sure you want to delete " + txtInput.getText() + "?");
+            deleteAlert.setMessage("Are you sure you want to delete " + ans + "?");
             deleteAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int i) {
 
                     switch (appScreen) {
                         case PERSON:
-                            data.deletePerson(personList.get(index).getId());
+                            data.deletePerson(((person) obj).getId());
                             break;
 
                         case APP:
-                            data.deleteApp(appList.get(index).getId());
+                            data.deleteApp(((app) obj).getId());
                             break;
 
                         case BLACKLIST:
-                            data.deleteBlacklist(blacklistList.get(index).getId());
+                            data.deleteBlacklist(((blacklist) obj).getId());
                             break;
                     }
 
@@ -293,8 +307,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnEditClick(View v) {
         mode = 2;
-        btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.exit));
-        btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.save));
+       // btnDelete.setImageDrawable(getResources().getDrawable(R.drawable.exit));
+       // btnAdd.setImageDrawable(getResources().getDrawable(R.drawable.save));
         layoutMod();
     }
 
@@ -365,22 +379,24 @@ public class MainActivity extends AppCompatActivity {
             switch (appScreen){
                 case PERSON:
                     person p = personList.get(index);
-                    txtInput.setText(p.getInput());
-                    txtOutput.setText(p.getOutput());
+                   /// txtInput.setText(p.getInput());
+                   // txtOutput.setText(p.getOutput());
                     break;
 
                 case APP:
                     app a = appList.get(index);
-                    txtInput.setText(a.getInput());
-                    txtOutput.setText(a.getOutput());
+                   // txtInput.setText(a.getInput());
+                   // txtOutput.setText(a.getOutput());
                     break;
 
                 case BLACKLIST:
                     blacklist b = blacklistList.get(index);
-                    txtInput.setText(b.getInput());
-                    txtOutput.setText(String.valueOf(b.getType()));
+                  //  txtInput.setText(b.getInput());
+                  //  txtOutput.setText(String.valueOf(b.getType()));
                     break;
             }
+
+            fillScrollLayout();
         }
         catch(Exception ex){
             Log.wtf("Error", ex.toString());
@@ -403,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
 
     //0 = normal running, 1 is add, 2 is edit
     private void layoutMod(){
-
+/*
         switch(mode){
             case 0:
                 txtInput.setEnabled(false);
@@ -456,6 +472,94 @@ public class MainActivity extends AppCompatActivity {
                 btnApp.setEnabled(false);
                 btnBlacklist.setEnabled(false);
                 break;
+        }*/
+    }
+
+
+
+    private void fillScrollLayout(){
+        List<?> temp = null;
+        sclMainLin.removeAllViews();
+        int mode = 0;
+        switch (appScreen){
+            case PERSON:
+                temp = personList;
+                break;
+
+            case APP:
+                mode = 1;
+                temp = appList;
+                break;
+
+            case BLACKLIST:
+                mode = 2;
+                temp = blacklistList;
+                break;
+        }
+
+        if (temp == null){
+            return;
+        }
+
+        person per;
+        app app;
+        blacklist blacklist;
+        TextView input, output;
+        for (int i = 0; i < temp.size(); i++) {
+            final View Child = LayoutInflater.from(this).inflate(R.layout.item, null);
+            pi = i;
+            Object obj = temp.get(i);
+
+            input = (TextView) Child.findViewById(R.id.itemInput);
+            output = (TextView) Child.findViewById(R.id.itemOutput);
+
+            final TextView ID = (TextView) Child.findViewById(R.id.itemId);
+
+            Child.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //PostClicked(ID.getText().toString());
+                }
+            });
+
+            final Button btnDel = Child.findViewById(R.id.itemDelete);
+            final Object objDel = obj;
+            btnDel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btnDeleteClick(objDel);
+                }
+            });
+
+            switch (mode){
+                case PERSON:
+                    per = (person) obj;
+                    ID.setText(String.valueOf(per.getId()));
+                    input.setText(per.getInput());
+                    output.setText(per.getOutput());
+                    break;
+
+                case APP:
+                    app = (app) obj;
+                    ID.setText(String.valueOf(app.getId()));
+                    input.setText(app.getInput());
+                    output.setText(app.getOutput());
+                    break;
+
+                case BLACKLIST:
+                    blacklist = (blacklist) obj;
+                    ID.setText(String.valueOf(blacklist.getId()));
+                    input.setText(blacklist.getInput());
+                    output.setText(String.valueOf(blacklist.getType()));
+                    break;
+            }
+
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    sclMainLin.addView(Child, pi);
+                }
+            });
         }
     }
 
