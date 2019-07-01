@@ -8,44 +8,50 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
     private TextView lblExplain;
     private holder data;
-    private int mode = 0, pi;
     private List<app> appList;
     private List<person> personList;
     private List<blacklist> blacklistList;
-    private int appScreen = 0;
+    private int appScreen = 0, pi;
     private final int PERSON = 0, APP = 1, BLACKLIST = 2;
-    private ScrollView sclMain;
     private LinearLayout sclMainLin;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle drawerToggle;
+    private boolean isOn = true;
+    private Button btnOnOff;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            if (!isOn){
+                return;
+            }
+
             String pack = intent.getStringExtra("package");
             String title = intent.getStringExtra("title");
             String text = intent.getStringExtra("text");
@@ -91,8 +97,30 @@ public class MainActivity extends AppCompatActivity {
         data.createTables();
 
         lblExplain = findViewById(R.id.lblExplain);
-        sclMain = findViewById(R.id.sclMain);
         sclMainLin = findViewById(R.id.sclMainLin);
+        btnOnOff = findViewById(R.id.btnOnOff);
+
+        //Setup drawer
+
+        ListView drawerList;
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerMain);
+        drawerList = (ListView) findViewById(R.id.drawerList);
+
+        setupToolbar();
+
+        drawerItem[] drawerItem = new drawerItem[3];
+
+        drawerItem[0] = new drawerItem(getResources().getString(R.string.people));
+        drawerItem[1] = new drawerItem(getResources().getString(R.string.apps));
+        drawerItem[2] = new drawerItem(getResources().getString(R.string.blacklist));
+
+        drawerAdapter adapter = new drawerAdapter(this, R.layout.list_view_item_row, drawerItem);
+        drawerList.setAdapter(adapter);
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerMain);
+        drawerLayout.setDrawerListener(drawerToggle);
+        setupDrawerToggle();
+        //End setup
 
         refresh();
         btnPersonClick(null);
@@ -107,18 +135,21 @@ public class MainActivity extends AppCompatActivity {
     public void btnPersonClick(View v) {
         appScreen = PERSON;
         lblExplain.setText(R.string.peopleExplain);
+        setTitle(R.string.people);
         refresh();
     }
 
     public void btnBlacklistClick(View v) {
         appScreen = BLACKLIST;
         lblExplain.setText(R.string.blacklistExplain);
+        setTitle(R.string.blacklist);
         refresh();
     }
 
     public void btnAppClick(View v) {
         appScreen = APP;
         lblExplain.setText(R.string.appExplain);
+        setTitle(R.string.apps);
         refresh();
     }
 
@@ -168,6 +199,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnEditClick(final Object obj) {
         popupDialog(obj);
+    }
+
+    public void btnOnOff(View v) {
+        if (isOn){
+            btnOnOff.setText(getResources().getString(R.string.turnOn));
+        }else{
+            btnOnOff.setText(getResources().getString(R.string.turnOff));
+        }
+
+        isOn = !isOn;
     }
 
     private void refresh(){
@@ -433,6 +474,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
+    }
+
+    private void selectItem(int position) {
+        switch (position){
+            case PERSON:
+                btnPersonClick(null);
+                break;
+
+            case APP:
+                btnAppClick(null);
+                break;
+
+            case BLACKLIST:
+                btnBlacklistClick(null);
+                break;
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    void setupToolbar(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    void setupDrawerToggle(){
+        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name, R.string.app_name);
+        drawerToggle.syncState();
     }
 
 }

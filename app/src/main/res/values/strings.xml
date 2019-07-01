@@ -21,4 +21,13 @@
     <string name="blacklist">Blacklist</string>
     <string name="addDialog">Adding a new</string>
     <string name="editDialog">Editing</string>
+    <string name="turnOn">Turn On</string>
+    <string name="turnOff">Turn Off</string>
+
+    <string-array name="name_array">
+        <item>People</item>
+        <item>Apps</item>
+        <item>Blacklist</item>
+    </string-array>
+
 </resources>
