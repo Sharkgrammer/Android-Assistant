@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private final int PERSON = 0, APP = 1, BLACKLIST = 2;
     private LinearLayout sclMainLin;
     private DrawerLayout drawerLayout;
+    private ListView drawerList;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private boolean isOn = true;
@@ -102,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Setup drawer
 
-        ListView drawerList;
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerMain);
         drawerList = (ListView) findViewById(R.id.drawerList);
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         drawerItem[1] = new drawerItem(getResources().getString(R.string.apps));
         drawerItem[2] = new drawerItem(getResources().getString(R.string.blacklist));
 
-        drawerAdapter adapter = new drawerAdapter(this, R.layout.list_view_item_row, drawerItem);
+        drawerAdapter adapter = new drawerAdapter(this, R.layout.list_item, drawerItem);
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerMain);
@@ -499,6 +499,8 @@ public class MainActivity extends AppCompatActivity {
                 btnBlacklistClick(null);
                 break;
         }
+
+        drawerLayout.closeDrawer(drawerList);
 
     }
 
