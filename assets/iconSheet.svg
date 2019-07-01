@@ -34,9 +34,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="-55.577002"
-     inkscape:cy="328.41756"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="22.134905"
+     inkscape:cy="470.72042"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -66,17 +66,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-12.37872,-8.1190584)">
-    <rect
-       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#3f51b5;stroke-width:0.40742341;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
-       id="rect845-1-6"
-       width="4.5925765"
-       height="49.592575"
-       x="-35.415333"
-       y="68.222626"
-       ry="0.18976778"
-       transform="rotate(-90)"
-       inkscape:export-xdpi="203.2"
-       inkscape:export-ydpi="203.2" />
     <g
        id="g922"
        transform="translate(-6.3365831,-101.47834)"
@@ -407,5 +396,28 @@ Hm5ZqAAAAABJRU5ErkJggg==
        preserveAspectRatio="none"
        height="50"
        width="50" />
+    <rect
+       style="opacity:1;fill:#303f9f;fill-opacity:0;fill-rule:nonzero;stroke:#3f51b5;stroke-width:0.40742341;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
+       id="rect845-12-38"
+       width="4.5925765"
+       height="49.592575"
+       x="95.247925"
+       y="8.3227701"
+       ry="0.18976776"
+       inkscape:export-filename="C:\Users\gills\AndroidStudioProjects\Assistant\assets\delete.png"
+       inkscape:export-xdpi="203.2"
+       inkscape:export-ydpi="203.2" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#3f51b5;stroke-width:0.40742341;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
+       id="rect845-1-0-4"
+       width="4.5925765"
+       height="49.592575"
+       x="-35.415348"
+       y="73.136314"
+       ry="0.18976778"
+       transform="rotate(-90)"
+       inkscape:export-filename="C:\Users\gills\AndroidStudioProjects\Assistant\assets\delete.png"
+       inkscape:export-xdpi="203.2"
+       inkscape:export-ydpi="203.2" />
   </g>
 </svg>
