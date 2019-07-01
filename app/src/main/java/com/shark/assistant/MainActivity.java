@@ -371,8 +371,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case BLACKLIST:
-                    input.setHint(getResources().getString(R.string.appInput));
-                    output.setHint(getResources().getString(R.string.appOutput));
+                    input.setHint(getResources().getString(R.string.blacklistInput));
+                    output.setHint(getResources().getString(R.string.blacklistOutput));
                     titlePart = " blacklist item";
                     break;
             }

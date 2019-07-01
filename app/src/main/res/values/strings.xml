@@ -9,7 +9,7 @@
     <string name="appExplain">Set app messages to be something else here. It uses the package name</string>
     <string name="blacklistInput">Blacklist input</string>
     <string name="blacklistOutput">Type</string>
-    <string name="blacklistExplain">Enter something here for it to be ignored. 0 for matching, 1 for exact and 2 for regex</string>
+    <string name="blacklistExplain">Enter something here for it to be ignored. Type 0 for matching, 1 for exact and 2 for regex</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="add">Add New</string>
@@ -23,11 +23,5 @@
     <string name="editDialog">Editing</string>
     <string name="turnOn">Turn On</string>
     <string name="turnOff">Turn Off</string>
-
-    <string-array name="name_array">
-        <item>People</item>
-        <item>Apps</item>
-        <item>Blacklist</item>
-    </string-array>
 
 </resources>
