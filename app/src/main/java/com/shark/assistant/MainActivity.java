@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.speech.tts.TextToSpeech;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (dataStr == null){
                 log.setBlocked(true);
+                log.setFixed("Blocked notification");
+                logList.add(log);
                 return;
             }else{
                 log.setFixed(dataStr);
@@ -182,8 +186,18 @@ public class MainActivity extends AppCompatActivity {
         refresh();
     }
 
-    public void btnBlacklistItemClick(log log){
-
+    public void btnBlacklistItemClick(final log log){
+        AlertDialog.Builder itemAlert = new AlertDialog.Builder(this);
+        itemAlert.setMessage("Are you sure you want to blacklist \"" + log.getFixed() + "\"?");
+        itemAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                data.newBlacklist(log.getFixed(), 1);
+            }
+        });
+        itemAlert.setNegativeButton("No", null);
+        itemAlert.setCancelable(true);
+        itemAlert.show();
     }
 
     public void btnDeleteClick(final Object obj) {
@@ -350,11 +364,13 @@ public class MainActivity extends AppCompatActivity {
         sclMainLin.removeAllViews();
         btnAddNew.setText(getResources().getString(R.string.refreshAdd));
         TextView pack,title,text,fixed,original;
+        ConstraintLayout lay;
+        Drawable failBack = getResources().getDrawable(R.drawable.itemlogborderfail);
         boolean isBlacklisted;
 
-        for (int i = 0; i < logList.size(); i++) {
+        for (int i = logList.size() - 1; i >= 0; i--) {
             final View Child = LayoutInflater.from(this).inflate(R.layout.log_item, null);
-            pi = i;
+            pi = logList.size() - i;
             final log log = logList.get(i);
 
             pack = (TextView) Child.findViewById(R.id.itemPackage);
@@ -362,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
             text = (TextView) Child.findViewById(R.id.itemText);
             original = (TextView) Child.findViewById(R.id.itemOriginal);
             fixed = (TextView) Child.findViewById(R.id.itemFixed);
+            lay = (ConstraintLayout) Child.findViewById(R.id.itemLayLog);
             final Button btnLog = Child.findViewById(R.id.itemBlacklist);
 
             pack.setText(log.getPack());
@@ -371,8 +388,10 @@ public class MainActivity extends AppCompatActivity {
             fixed.setText(log.getFixed());
             isBlacklisted = log.isBlocked();
 
+
             if (isBlacklisted){
                 btnLog.setText(R.string.unblacklist);
+                lay.setBackground(failBack);
             }
 
             btnLog.setOnClickListener(new View.OnClickListener() {
@@ -385,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    sclMainLin.addView(Child, pi);
+                    sclMainLin.addView(Child, pi - 1);
                 }
             });
         }

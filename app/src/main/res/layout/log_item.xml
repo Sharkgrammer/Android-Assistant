@@ -15,7 +15,8 @@
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/itemlogborder">
+        android:id="@+id/itemLayLog"
+        android:background="@drawable/itemlogborderpass">
 
         <TextView
             android:id="@+id/itemFixed"
