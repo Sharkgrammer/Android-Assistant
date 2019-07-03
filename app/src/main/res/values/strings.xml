@@ -10,18 +10,27 @@
     <string name="blacklistInput">Blacklist input</string>
     <string name="blacklistOutput">Type</string>
     <string name="blacklistExplain">Enter something here for it to be ignored. Type 0 for matching, 1 for exact and 2 for regex</string>
+    <string name="logsExplain">Any notification you get is logged here</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="add">Add New</string>
+    <string name="refreshAdd">Refresh</string>
     <string name="exit">Exit</string>
     <string name="edit">Edit</string>
     <string name="linkText"> A Link </string>
     <string name="people">People</string>
     <string name="apps">Apps</string>
     <string name="blacklist">Blacklist</string>
+    <string name="unblacklist">Unblacklist</string>
+    <string name="logs">Logs</string>
     <string name="addDialog">Adding a new</string>
     <string name="editDialog">Editing</string>
     <string name="turnOn">Turn On</string>
     <string name="turnOff">Turn Off</string>
+    <string name="pack">App Package</string>
+    <string name="title">Notification Title</string>
+    <string name="text">Notification Text</string>
+    <string name="original">Full</string>
+    <string name="fixed">Fixed</string>
 
 </resources>

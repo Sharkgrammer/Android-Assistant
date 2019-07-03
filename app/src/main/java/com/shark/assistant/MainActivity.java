@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,15 +36,16 @@ public class MainActivity extends AppCompatActivity {
     private List<app> appList;
     private List<person> personList;
     private List<blacklist> blacklistList;
+    private List<log> logList;
     private int appScreen = 0, pi;
-    private final int PERSON = 0, APP = 1, BLACKLIST = 2;
+    private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3;
     private LinearLayout sclMainLin;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private boolean isOn = true;
-    private Button btnOnOff;
+    private Button btnOnOff, btnAddNew;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
@@ -57,20 +59,33 @@ public class MainActivity extends AppCompatActivity {
             String title = intent.getStringExtra("title");
             String text = intent.getStringExtra("text");
 
+            log log = new log();
+
             Log.wtf("Package", pack);
             Log.wtf("Title", title);
             Log.wtf("Text", text);
 
-            String dataStr = pack + " . " + title + " . " + text;
+            log.setPack(pack);
+            log.setTitle(title);
+            log.setText(text);
+
+            String dataStr = pack + " " + title + " " + text;
+            log.setOriginal(dataStr);
+
             processor pro = new processor(MainActivity.this);
 
-            dataStr = pro.processText(dataStr);
+            dataStr = pro.processText(dataStr.trim());
 
             if (dataStr == null){
+                log.setBlocked(true);
                 return;
+            }else{
+                log.setFixed(dataStr);
             }
 
-            Log.i("TTS", dataStr);
+            logList.add(log);
+
+            Log.i("TTS", "\"" + dataStr + "\"");
             int speechStatus = textToSpeech.speak(dataStr, TextToSpeech.QUEUE_FLUSH, null);
             if (speechStatus == TextToSpeech.ERROR) {
                 Log.e("TTS", "Error in converting Text to Speech!");
@@ -100,19 +115,21 @@ public class MainActivity extends AppCompatActivity {
         lblExplain = findViewById(R.id.lblExplain);
         sclMainLin = findViewById(R.id.sclMainLin);
         btnOnOff = findViewById(R.id.btnOnOff);
+        btnAddNew = findViewById(R.id.btnAdd);
 
         //Setup drawer
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerMain);
         drawerList = (ListView) findViewById(R.id.drawerList);
+        logList = new ArrayList<>();
 
         setupToolbar();
 
-        drawerItem[] drawerItem = new drawerItem[3];
+        drawerItem[] drawerItem = new drawerItem[4];
 
         drawerItem[0] = new drawerItem(getResources().getString(R.string.people));
         drawerItem[1] = new drawerItem(getResources().getString(R.string.apps));
         drawerItem[2] = new drawerItem(getResources().getString(R.string.blacklist));
+        drawerItem[3] = new drawerItem(getResources().getString(R.string.logs));
 
         drawerAdapter adapter = new drawerAdapter(this, R.layout.list_item, drawerItem);
         drawerList.setAdapter(adapter);
@@ -129,7 +146,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnNewClick(View v) {
-        popupDialog(null);
+        if (appScreen != LOGS){
+            popupDialog(null);
+        }else{
+            fillLogLayout();
+        }
+
     }
 
     public void btnPersonClick(View v) {
@@ -151,6 +173,17 @@ public class MainActivity extends AppCompatActivity {
         lblExplain.setText(R.string.appExplain);
         setTitle(R.string.apps);
         refresh();
+    }
+
+    public void btnLogsClick(View v) {
+        appScreen = LOGS;
+        lblExplain.setText(R.string.logsExplain);
+        setTitle(R.string.logs);
+        refresh();
+    }
+
+    public void btnBlacklistItemClick(log log){
+
     }
 
     public void btnDeleteClick(final Object obj) {
@@ -223,21 +256,25 @@ public class MainActivity extends AppCompatActivity {
     private void fillScrollLayout(){
         List<?> temp = null;
         sclMainLin.removeAllViews();
-        int mode = 0;
+        int mode = PERSON;
+        btnAddNew.setText(getResources().getString(R.string.add));
         switch (appScreen){
             case PERSON:
                 temp = personList;
                 break;
 
             case APP:
-                mode = 1;
+                mode = APP;
                 temp = appList;
                 break;
 
             case BLACKLIST:
-                mode = 2;
+                mode = BLACKLIST;
                 temp = blacklistList;
                 break;
+            case LOGS:
+                fillLogLayout();
+                return;
         }
 
         if (temp == null){
@@ -299,6 +336,51 @@ public class MainActivity extends AppCompatActivity {
                     output.setText(String.valueOf(blacklist.getType()));
                     break;
             }
+
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    sclMainLin.addView(Child, pi);
+                }
+            });
+        }
+    }
+
+    private void fillLogLayout(){
+        sclMainLin.removeAllViews();
+        btnAddNew.setText(getResources().getString(R.string.refreshAdd));
+        TextView pack,title,text,fixed,original;
+        boolean isBlacklisted;
+
+        for (int i = 0; i < logList.size(); i++) {
+            final View Child = LayoutInflater.from(this).inflate(R.layout.log_item, null);
+            pi = i;
+            final log log = logList.get(i);
+
+            pack = (TextView) Child.findViewById(R.id.itemPackage);
+            title = (TextView) Child.findViewById(R.id.itemTitle);
+            text = (TextView) Child.findViewById(R.id.itemText);
+            original = (TextView) Child.findViewById(R.id.itemOriginal);
+            fixed = (TextView) Child.findViewById(R.id.itemFixed);
+            final Button btnLog = Child.findViewById(R.id.itemBlacklist);
+
+            pack.setText(log.getPack());
+            title.setText(log.getTitle());
+            text.setText(log.getText());
+            original.setText(log.getOriginal());
+            fixed.setText(log.getFixed());
+            isBlacklisted = log.isBlocked();
+
+            if (isBlacklisted){
+                btnLog.setText(R.string.unblacklist);
+            }
+
+            btnLog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btnBlacklistItemClick(log);
+                }
+            });
 
             MainActivity.this.runOnUiThread(new Runnable() {
                 @Override
@@ -498,6 +580,8 @@ public class MainActivity extends AppCompatActivity {
             case BLACKLIST:
                 btnBlacklistClick(null);
                 break;
+            case LOGS:
+                btnLogsClick(null);
         }
 
         drawerLayout.closeDrawer(drawerList);

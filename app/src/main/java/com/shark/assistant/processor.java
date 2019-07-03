@@ -33,6 +33,22 @@ public class processor {
             text = text.replace(matcher.group(), context.getResources().getString(R.string.linkText));
         }
 
+        if (!appList.isEmpty()){
+            for (app x : appList){
+                if (text.contains(x.getInput())){
+                    text = text.replace(x.getInput(), x.getOutput());
+                }
+            }
+        }
+
+        if (!personList.isEmpty()){
+            for (person x : personList){
+                if (text.contains(x.getInput())){
+                    text = text.replace(x.getInput(), x.getOutput());
+                }
+            }
+        }
+
         if (!blacklistList.isEmpty()){
             for (blacklist x : blacklistList){
                 switch(x.getType()){
@@ -62,22 +78,6 @@ public class processor {
                         }
 
                         break;
-                }
-            }
-        }
-
-        if (!appList.isEmpty()){
-            for (app x : appList){
-                if (text.contains(x.getInput())){
-                    text = text.replace(x.getInput(), x.getOutput());
-                }
-            }
-        }
-
-        if (!personList.isEmpty()){
-            for (person x : personList){
-                if (text.contains(x.getInput())){
-                    text = text.replace(x.getInput(), x.getOutput());
                 }
             }
         }
