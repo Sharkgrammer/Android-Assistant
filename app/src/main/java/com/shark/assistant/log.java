@@ -7,6 +7,7 @@ public class log {
     private String text = "";
     private String original = "";
     private String fixed = "";
+    private String time = "";
     private boolean isBlocked = false;
 
     public String getPack() {
@@ -55,5 +56,13 @@ public class log {
 
     public void setBlocked(boolean blocked) {
         isBlocked = blocked;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

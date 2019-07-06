@@ -32,5 +32,6 @@
     <string name="text">Notification Text</string>
     <string name="original">Full</string>
     <string name="fixed">Fixed</string>
+    <string name="time">Time</string>
 
 </resources>

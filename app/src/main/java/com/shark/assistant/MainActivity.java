@@ -26,7 +26,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
             log.setPack(pack);
             log.setTitle(title);
             log.setText(text);
+
+            DateFormat df;
+            df = new SimpleDateFormat("dd MMM yyyy, HH:mm:ss", Locale.getDefault());
+            log.setTime(df.format(Calendar.getInstance().getTime()));
 
             String dataStr = pack + " " + title + " " + text;
             log.setOriginal(dataStr);
@@ -363,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
     private void fillLogLayout(){
         sclMainLin.removeAllViews();
         btnAddNew.setText(getResources().getString(R.string.refreshAdd));
-        TextView pack,title,text,fixed,original;
+        TextView pack,title,text,fixed,original,time;
         ConstraintLayout lay;
         Drawable failBack = getResources().getDrawable(R.drawable.itemlogborderfail);
         boolean isBlacklisted;
@@ -378,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
             text = (TextView) Child.findViewById(R.id.itemText);
             original = (TextView) Child.findViewById(R.id.itemOriginal);
             fixed = (TextView) Child.findViewById(R.id.itemFixed);
+            time = (TextView) Child.findViewById(R.id.itemTime);
             lay = (ConstraintLayout) Child.findViewById(R.id.itemLayLog);
             final Button btnLog = Child.findViewById(R.id.itemBlacklist);
 
@@ -386,6 +396,7 @@ public class MainActivity extends AppCompatActivity {
             text.setText(log.getText());
             original.setText(log.getOriginal());
             fixed.setText(log.getFixed());
+            time.setText(log.getTime());
             isBlacklisted = log.isBlocked();
 
 
