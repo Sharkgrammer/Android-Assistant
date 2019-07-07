@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +21,7 @@ public class database extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         db = this.getWritableDatabase();
 
-        //String Query = "drop table app";
-        //db.execSQL(Query);
-
-        //String Query = "drop table person";
+        //String Query = "drop table blacklist";
         //db.execSQL(Query);
 
     }
@@ -53,11 +52,15 @@ public class database extends SQLiteOpenHelper {
             String Query = "insert into person(" +
                     "person_input," +
                     "person_output" +
-                    ") values ('" +
-                    p.getInput() + "','" +
-                    p.getOutput() + "'" +
-                    ");";
-            db.execSQL(Query);
+                    ") values (?, ?) ";
+
+            SQLiteStatement queryState = db.compileStatement(Query);
+
+            queryState.bindString(1, p.getInput());
+            queryState.bindString(2, p.getOutput());
+
+            queryState.execute();
+
         }catch(Exception e){
             Log.wtf("Error", e.toString());
         }
@@ -91,9 +94,16 @@ public class database extends SQLiteOpenHelper {
 
     public void savePerson(int id, String input, String output){
         try{
-            String Query = "update person set person_input = '" + input + "', person_output = '" + output + "' where person_id = " + id;
-            System.out.println(Query);
-            db.execSQL(Query);
+            String Query = "update person set person_input = ?, person_output = ? where person_id = ?";
+
+            SQLiteStatement queryState = db.compileStatement(Query);
+
+            queryState.bindString(1, input);
+            queryState.bindString(2, output);
+            queryState.bindDouble(3, id);
+
+            queryState.execute();
+
         }catch(Exception e){
             Log.wtf("Error", e.toString());
         }
@@ -125,11 +135,15 @@ public class database extends SQLiteOpenHelper {
             String Query = "insert into app(" +
                     "app_input," +
                     "app_output" +
-                    ") values ('" +
-                    a.getInput() + "','" +
-                    a.getOutput() + "'" +
-                    ");";
-            db.execSQL(Query);
+                    ") values (?, ?)";
+
+            SQLiteStatement queryState = db.compileStatement(Query);
+
+            queryState.bindString(1, a.getInput());
+            queryState.bindString(2, a.getOutput());
+
+            queryState.execute();
+
         }catch(Exception e){
             Log.wtf("Error", e.toString());
         }
@@ -164,8 +178,16 @@ public class database extends SQLiteOpenHelper {
 
     public void saveApp(int id, String input, String output){
         try{
-            String Query = "update app set app_input = '" + input + "', app_output = '" + output + "' where app_id = " + id;
-            db.execSQL(Query);
+            String Query = "update app set app_input = ?, app_output = ? where app_id = ?";
+
+            SQLiteStatement queryState = db.compileStatement(Query);
+
+            queryState.bindString(1, input);
+            queryState.bindString(2, output);
+            queryState.bindDouble(3, id);
+
+            queryState.execute();
+
         }catch(Exception e){
             Log.wtf("Error", e.toString());
         }
@@ -197,12 +219,15 @@ public class database extends SQLiteOpenHelper {
             String Query = "insert into blacklist(" +
                     "blacklist_input," +
                     "blacklist_type" +
-                    ") values ('" +
-                    b.getInput() + "'," +
-                    b.getType() + "" +
-                    ");";
-            System.out.println(Query);
-            db.execSQL(Query);
+                    ") values (?, ?)";
+
+            SQLiteStatement queryState = db.compileStatement(Query);
+
+            queryState.bindString(1, b.getInput());
+            queryState.bindDouble(2, b.getType());
+
+            queryState.execute();
+
         }catch(Exception e){
             Log.wtf("Error", e.toString());
         }
@@ -237,8 +262,16 @@ public class database extends SQLiteOpenHelper {
 
     public void saveBlacklist(int id, String input, int type){
         try{
-            String Query = "update blacklist set blacklist_input = '" + input + "', blacklist_type = " + type + " where blacklist_id = " + id;
-            db.execSQL(Query);
+            String Query = "update blacklist set blacklist_input = ?, blacklist_type = ? where blacklist_id = ?";
+            
+            SQLiteStatement queryState = db.compileStatement(Query);
+
+            queryState.bindString(1, input);
+            queryState.bindDouble(2, type);
+            queryState.bindDouble(3, id);
+
+            queryState.execute();
+
         }catch(Exception e){
             Log.wtf("Error", e.toString());
         }

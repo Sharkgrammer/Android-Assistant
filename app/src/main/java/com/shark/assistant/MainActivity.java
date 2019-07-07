@@ -575,6 +575,7 @@ public class MainActivity extends AppCompatActivity {
 
                         case BLACKLIST:
                             int tempint;
+                            b.setId(intID);
                             b.setInput(intInput);
                             try{
                                 tempint = Integer.valueOf(intOutput);
