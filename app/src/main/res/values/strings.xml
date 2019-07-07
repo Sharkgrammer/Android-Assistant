@@ -33,5 +33,8 @@
     <string name="original">Full</string>
     <string name="fixed">Fixed</string>
     <string name="time">Time</string>
+    <string name="privateOn">Private</string>
+    <string name="privateOff">Normal</string>
+    <string name="privateClear">Clear</string>
 
 </resources>

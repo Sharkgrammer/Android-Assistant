@@ -45,67 +45,69 @@
 
         <Button
             android:id="@+id/btnAdd"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="260dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="8dp"
             android:onClick="btnNewClick"
             android:text="@string/add"
             android:theme="@style/PrimaryRaisedButton"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/sclMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.096"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBlacklist" />
+            app:layout_constraintEnd_toStartOf="@+id/btnPrivate"
+            app:layout_constraintStart_toEndOf="@+id/btnOnOff"
+            app:layout_constraintTop_toBottomOf="@+id/lblExplain" />
 
         <Button
             android:id="@+id/btnOnOff"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="40dp"
-            android:layout_marginEnd="260dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:onClick="btnOnOff"
             android:text="@string/turnOff"
             android:theme="@style/PrimaryRaisedButton"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/sclMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.096"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBlacklist" />
+            app:layout_constraintTop_toBottomOf="@+id/lblExplain" />
+
+        <Button
+            android:id="@+id/btnPrivate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:onClick="btnPrivate"
+            android:text="@string/privateOn"
+            android:theme="@style/PrimaryRaisedButton"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblExplain" />
 
         <TextView
             android:id="@+id/lblExplain"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/textborder"
-            app:layout_constraintBottom_toTopOf="@+id/sclMain"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnAdd"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnBlacklist" />
 
         <ScrollView
             android:id="@+id/sclMain"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/mainborder"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toBottomOf="@+id/btnAdd">
 
             <LinearLayout
                 android:id="@+id/sclMainLin"

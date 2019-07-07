@@ -22,7 +22,7 @@ public class processor {
         personList = data.getPersonList();
     }
 
-    public String processText(String text){
+    public String processText(String text, boolean privateMode){
         text = text.toLowerCase();
 
         //Check if its a link here
@@ -80,6 +80,11 @@ public class processor {
                         break;
                 }
             }
+        }
+
+        if (privateMode){
+            String[] tempTextArr = text.split("---");
+            text = tempTextArr[0] + " --- " + tempTextArr[1];
         }
 
         return text;

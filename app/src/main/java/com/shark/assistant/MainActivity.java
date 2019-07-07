@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView drawerList;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
-    private boolean isOn = true;
-    private Button btnOnOff, btnAddNew;
+    private boolean isOn = true, privateMode = false;
+    private Button btnOnOff, btnAddNew, btnPrivate;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
             df = new SimpleDateFormat("dd MMM yyyy, HH:mm:ss", Locale.getDefault());
             log.setTime(df.format(Calendar.getInstance().getTime()));
 
-            String dataStr = pack + " " + title + " " + text;
-            log.setOriginal(dataStr);
+            String dataStr = pack + " --- " + title + " --- " + text;
+            log.setOriginal(dataStr.replace("---", ""));
 
             processor pro = new processor(MainActivity.this);
 
-            dataStr = pro.processText(dataStr.trim());
+            dataStr = pro.processText(dataStr.trim(), privateMode);
 
             if (dataStr == null){
                 log.setBlocked(true);
@@ -93,13 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 logList.add(log);
                 return;
             }else{
-                log.setFixed(dataStr);
+                log.setFixed(dataStr.replace("---", ""));
             }
 
             logList.add(log);
 
             Log.i("TTS", "\"" + dataStr + "\"");
-            int speechStatus = textToSpeech.speak(dataStr, TextToSpeech.QUEUE_FLUSH, null);
+            int speechStatus = textToSpeech.speak(dataStr.replace("---", "."), TextToSpeech.QUEUE_FLUSH, null);
             if (speechStatus == TextToSpeech.ERROR) {
                 Log.e("TTS", "Error in converting Text to Speech!");
             }
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         sclMainLin = findViewById(R.id.sclMainLin);
         btnOnOff = findViewById(R.id.btnOnOff);
         btnAddNew = findViewById(R.id.btnAdd);
+        btnPrivate = findViewById(R.id.btnPrivate);
 
         //Setup drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerMain);
@@ -188,6 +189,20 @@ public class MainActivity extends AppCompatActivity {
         refresh();
     }
 
+    public void btnPrivate(View v) {
+        if (appScreen == LOGS){
+            logList.clear();
+            refresh();
+        }else{
+            privateMode = !privateMode;
+            if (privateMode){
+                btnPrivate.setText(R.string.privateOff);
+            }else{
+                btnPrivate.setText(R.string.privateOn);
+            }
+        }
+    }
+
     public void btnLogsClick(View v) {
         appScreen = LOGS;
         lblExplain.setText(R.string.logsExplain);
@@ -196,17 +211,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnBlacklistItemClick(final log log){
-        AlertDialog.Builder itemAlert = new AlertDialog.Builder(this);
-        itemAlert.setMessage("Are you sure you want to blacklist \"" + log.getFixed() + "\"?");
-        itemAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                data.newBlacklist(log.getFixed(), 1);
-            }
-        });
-        itemAlert.setNegativeButton("No", null);
-        itemAlert.setCancelable(true);
-        itemAlert.show();
+        if (log.isBlocked()){
+            btnBlacklistClick(null);
+        }else{
+            AlertDialog.Builder itemAlert = new AlertDialog.Builder(this);
+            itemAlert.setMessage("Are you sure you want to blacklist \"" + log.getFixed() + "\"?");
+            itemAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    data.newBlacklist(log.getFixed(), 1);
+                }
+            });
+            itemAlert.setNegativeButton("No", null);
+            itemAlert.setCancelable(true);
+            itemAlert.show();
+        }
     }
 
     public void btnDeleteClick(final Object obj) {
@@ -372,6 +391,7 @@ public class MainActivity extends AppCompatActivity {
     private void fillLogLayout(){
         sclMainLin.removeAllViews();
         btnAddNew.setText(getResources().getString(R.string.refreshAdd));
+        btnPrivate.setText(R.string.privateClear);
         TextView pack,title,text,fixed,original,time;
         ConstraintLayout lay;
         Drawable failBack = getResources().getDrawable(R.drawable.itemlogborderfail);
