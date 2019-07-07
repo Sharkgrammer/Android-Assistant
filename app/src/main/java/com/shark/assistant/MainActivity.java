@@ -301,6 +301,11 @@ public class MainActivity extends AppCompatActivity {
         sclMainLin.removeAllViews();
         int mode = PERSON;
         btnAddNew.setText(getResources().getString(R.string.add));
+        if (privateMode){
+            btnPrivate.setText(R.string.privateOff);
+        }else{
+            btnPrivate.setText(R.string.privateOn);
+        }
         switch (appScreen){
             case PERSON:
                 temp = personList;

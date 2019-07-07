@@ -263,7 +263,7 @@ public class database extends SQLiteOpenHelper {
     public void saveBlacklist(int id, String input, int type){
         try{
             String Query = "update blacklist set blacklist_input = ?, blacklist_type = ? where blacklist_id = ?";
-            
+
             SQLiteStatement queryState = db.compileStatement(Query);
 
             queryState.bindString(1, input);
