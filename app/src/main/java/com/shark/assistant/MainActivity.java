@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private List<blacklist> blacklistList;
     private List<log> logList;
     private int appScreen = 0, pi;
-    private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3;
+    private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3, HIDE_HELP = 4;
     private LinearLayout sclMainLin;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -138,12 +138,13 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        drawerItem[] drawerItem = new drawerItem[4];
+        drawerItem[] drawerItem = new drawerItem[5];
 
         drawerItem[0] = new drawerItem(getResources().getString(R.string.people));
         drawerItem[1] = new drawerItem(getResources().getString(R.string.apps));
         drawerItem[2] = new drawerItem(getResources().getString(R.string.blacklist));
         drawerItem[3] = new drawerItem(getResources().getString(R.string.logs));
+        drawerItem[4] = new drawerItem(getResources().getString(R.string.hide));
 
         drawerAdapter adapter = new drawerAdapter(this, R.layout.list_item, drawerItem);
         drawerList.setAdapter(adapter);
@@ -632,6 +633,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case LOGS:
                 btnLogsClick(null);
+                break;
+            case HIDE_HELP:
+                if (lblExplain.getVisibility() == View.VISIBLE){
+                    lblExplain.setVisibility(View.GONE);
+                }else{
+                    lblExplain.setVisibility(View.VISIBLE);
+                }
         }
 
         drawerLayout.closeDrawer(drawerList);

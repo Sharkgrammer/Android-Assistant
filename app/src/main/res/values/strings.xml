@@ -36,5 +36,6 @@
     <string name="privateOn">Private</string>
     <string name="privateOff">Normal</string>
     <string name="privateClear">Clear</string>
+    <string name="hide">Toggle Help</string>
 
 </resources>
