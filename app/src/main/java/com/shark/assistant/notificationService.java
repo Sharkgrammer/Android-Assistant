@@ -7,7 +7,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.content.LocalBroadcastManager;
 
-public class NotificationService extends NotificationListenerService {
+public class notificationService extends NotificationListenerService {
 
     Context context;
 

@@ -31,11 +31,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class mainActivity extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
     private TextView lblExplain;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private List<blacklist> blacklistList;
     private List<log> logList;
     private int appScreen = 0, pi;
-    private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3, HIDE_HELP = 4;
+    private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3, HIDE_HELP = 4, IMPORT_PAGE = 5;
     private LinearLayout sclMainLin;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             String dataStr = pack + " --- " + title + " --- " + text;
             log.setOriginal(dataStr.replace("---", ""));
 
-            processor pro = new processor(MainActivity.this);
+            processor pro = new processor(mainActivity.this);
 
             dataStr = pro.processText(dataStr.trim(), privateMode);
 
@@ -138,13 +137,14 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        drawerItem[] drawerItem = new drawerItem[5];
+        drawerItem[] drawerItem = new drawerItem[9];
 
         drawerItem[0] = new drawerItem(getResources().getString(R.string.people));
         drawerItem[1] = new drawerItem(getResources().getString(R.string.apps));
         drawerItem[2] = new drawerItem(getResources().getString(R.string.blacklist));
         drawerItem[3] = new drawerItem(getResources().getString(R.string.logs));
         drawerItem[4] = new drawerItem(getResources().getString(R.string.hide));
+        drawerItem[5] = new drawerItem(getResources().getString(R.string.settings));
 
         drawerAdapter adapter = new drawerAdapter(this, R.layout.list_item, drawerItem);
         drawerList.setAdapter(adapter);
@@ -157,7 +157,18 @@ public class MainActivity extends AppCompatActivity {
         refresh();
         btnPersonClick(null);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(onNotice, new IntentFilter("Msg"));
+        //Hacky hack to return to later
+        //TODO fix this mess
+
+        LocalBroadcastManager ins =  LocalBroadcastManager.getInstance(this);
+
+        try{
+            ins.unregisterReceiver(onNotice);
+        }catch (Exception e){
+            Log.wtf("Error in LocalBroadcastManager", e.toString());
+        }
+
+        ins.registerReceiver(onNotice, new IntentFilter("Msg"));
     }
 
     public void btnNewClick(View v) {
@@ -385,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
 
-            MainActivity.this.runOnUiThread(new Runnable() {
+            mainActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     sclMainLin.addView(Child, pi);
@@ -438,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            MainActivity.this.runOnUiThread(new Runnable() {
+            mainActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     sclMainLin.addView(Child, pi - 1);
@@ -646,6 +657,8 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     lblExplain.setVisibility(View.VISIBLE);
                 }
+            case IMPORT_PAGE:
+                startActivity(new Intent(mainActivity.this, importActivity.class));
         }
 
         drawerLayout.closeDrawer(drawerList);
