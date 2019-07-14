@@ -137,7 +137,7 @@ public class mainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        drawerItem[] drawerItem = new drawerItem[9];
+        drawerItem[] drawerItem = new drawerItem[6];
 
         drawerItem[0] = new drawerItem(getResources().getString(R.string.people));
         drawerItem[1] = new drawerItem(getResources().getString(R.string.apps));

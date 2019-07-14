@@ -286,4 +286,21 @@ public class database extends SQLiteOpenHelper {
         }
     }
 
+    public boolean restartDatabase(){
+        try{
+            String Query = "drop table if exists blacklist, app, person";
+            db.execSQL(Query);
+
+            createTablesBlacklist();
+            createTablesPerson();
+            createTablesApp();
+
+        }catch(Exception e){
+            Log.wtf("Error in db restart", e.toString());
+            return false;
+        }
+        return true;
+
+    }
+
 }

@@ -98,4 +98,8 @@ public class holder {
         refresh();
     }
 
+    public boolean restartDatabase(){
+        return db.restartDatabase();
+    }
+
 }

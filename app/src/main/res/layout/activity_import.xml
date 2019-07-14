@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".importActivity">
 
+
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:local="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:text="@string/settings"
+        local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        local:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <TextView
         android:id="@+id/lblExplainData"
         android:layout_width="0dp"
@@ -13,14 +26,14 @@
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/textborder"
         android:text="@string/explainData"
         app:layout_constraintBottom_toTopOf="@+id/btnImportData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/btnImportData"
@@ -29,7 +42,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="100dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:onClick="importData"
         android:text="@string/importData"
         android:theme="@style/PrimaryRaisedButton"
