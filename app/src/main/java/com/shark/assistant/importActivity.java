@@ -37,10 +37,6 @@ public class importActivity extends AppCompatActivity {
     private boolean perms_read = true, perms_write = true;
     private static final int FILE_SELECT_CODE = 300;
     private final int WRITE_ACCESS = 0, READ_ACCESS = 1;
-    private List<app> appList;
-    private List<person> personList;
-    private List<blacklist> blacklistList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,9 +142,9 @@ public class importActivity extends AppCompatActivity {
             filename += dir.getAbsolutePath() + "/notifications_export.json";
 
             //prep objs for write
-            appList = data.getAppList();
-            personList = data.getPersonList();
-            blacklistList = data.getBlacklistList();
+            List<app> appList = data.getAppList();
+            List<person> personList = data.getPersonList();
+            List<blacklist> blacklistList = data.getBlacklistList();
 
             //write file
             jsonWriter = new JsonWriter(new FileWriter(filename));

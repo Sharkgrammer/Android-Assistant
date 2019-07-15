@@ -154,7 +154,6 @@ public class mainActivity extends AppCompatActivity {
         setupDrawerToggle();
         //End setup
 
-        refresh();
         btnPersonClick(null);
 
         //Hacky hack to return to later
@@ -169,6 +168,13 @@ public class mainActivity extends AppCompatActivity {
         }
 
         ins.registerReceiver(onNotice, new IntentFilter("Msg"));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.wtf("res", "Resume called");
+        refresh(0);
     }
 
     public void btnNewClick(View v) {
@@ -298,7 +304,14 @@ public class mainActivity extends AppCompatActivity {
         isOn = !isOn;
     }
 
+    private void refresh(int i){
+        data.refresh();
+        refresh();
+    }
+
+
     private void refresh(){
+
         appList = data.getAppList();
         personList = data.getPersonList();
         blacklistList = data.getBlacklistList();

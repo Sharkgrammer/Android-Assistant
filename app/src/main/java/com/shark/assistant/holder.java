@@ -34,7 +34,7 @@ public class holder {
         return personList;
     }
 
-    private void refresh(){
+    public void refresh(){
         personList = db.getTablesPerson();
         appList = db.getTablesApp();
         blacklistList = db.getTablesBlacklist();
