@@ -20,16 +20,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Scanner;
 
 public class importActivity extends AppCompatActivity {
 
     private holder data;
     private boolean perms_read = true, perms_write = true;
-    private static final int FILE_SELECT_CODE = 0;
+    private static final int FILE_SELECT_CODE = 300;
     private final int WRITE_ACCESS = 0, READ_ACCESS = 1;
+    private List<app> appList;
+    private List<person> personList;
+    private List<blacklist> blacklistList;
 
 
     @Override
@@ -45,20 +55,7 @@ public class importActivity extends AppCompatActivity {
 
     public void importData(View v){
         //import a file and update blacklist/people with it
-
         //get file filename/path
-
-
-        //readfile into objects
-
-
-
-        //update database
-
-
-        //update user
-
-
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -70,9 +67,50 @@ public class importActivity extends AppCompatActivity {
             Toast.makeText(this, "Please install a File Manager.",
                     Toast.LENGTH_SHORT).show();
         }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        InputStream is = null;
+        String file = "";
+        try {
+            is = getContentResolver().openInputStream(data.getData());
 
+            Scanner s = new Scanner(is).useDelimiter("\\A");
+            file = s.hasNext() ? s.next() : "";
 
+            is.close();
+
+            JSONObject obj = new JSONObject(file);
+
+            JSONArray listArray = obj.getJSONArray("lists");
+            JSONArray appArray = listArray.getJSONObject(0).getJSONArray("app");
+            JSONArray peopleArray = listArray.getJSONObject(1).getJSONArray("person");
+            JSONArray blacklistArray = listArray.getJSONObject(2).getJSONArray("blacklist");
+
+            //update database
+            for (int x = 0; x < appArray.length(); x++){
+                this.data.newApp(appArray.getJSONArray(x).getJSONObject(0).getString("input"), appArray.getJSONArray(x).getJSONObject(1).getString("output"));
+            }
+
+            for (int x = 0; x < peopleArray.length(); x++){
+                this.data.newPerson(peopleArray.getJSONArray(x).getJSONObject(0).getString("input"), peopleArray.getJSONArray(x).getJSONObject(1).getString("output"));
+            }
+
+            for (int x = 0; x < blacklistArray.length(); x++){
+                this.data.newBlacklist(blacklistArray.getJSONArray(x).getJSONObject(0).getString("input"), blacklistArray.getJSONArray(x).getJSONObject(1).getInt("type"));
+            }
+
+            //update user
+            Toast.makeText(getApplicationContext(), "Import Complete", Toast.LENGTH_SHORT).show();
+
+        }
+        catch (Exception e) {
+           Log.wtf("Error in JSON read", e.toString());
+           Toast.makeText(getApplicationContext(), "Import Failed", Toast.LENGTH_SHORT).show();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void exportData(View v){
@@ -108,9 +146,9 @@ public class importActivity extends AppCompatActivity {
             filename += dir.getAbsolutePath() + "/notifications_export.json";
 
             //prep objs for write
-            List<app> appList = data.getAppList();
-            List<person> personList = data.getPersonList();
-            List<blacklist> blacklistList = data.getBlacklistList();
+            appList = data.getAppList();
+            personList = data.getPersonList();
+            blacklistList = data.getBlacklistList();
 
             //write file
             jsonWriter = new JsonWriter(new FileWriter(filename));

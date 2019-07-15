@@ -44,6 +44,13 @@ public class holder {
         person p = new person();
         p.setInput(input);
         p.setOutput(output);
+
+        for (person x : personList){
+            if (x.getInput().equals(input)){
+                return;
+            }
+        }
+
         db.insertTablesPerson(p);
         refresh();
     }
@@ -52,6 +59,13 @@ public class holder {
         app a = new app();
         a.setInput(input);
         a.setOutput(output);
+
+        for (app x : appList){
+            if (x.getInput().equals(input)){
+                return;
+            }
+        }
+
         db.insertTablesApp(a);
         refresh();
     }
@@ -84,6 +98,13 @@ public class holder {
         blacklist b = new blacklist();
         b.setInput(input);
         b.setType(type);
+
+        for (blacklist x : blacklistList){
+            if (x.getInput().equals(input)){
+                return;
+            }
+        }
+
         db.insertTablesBlacklist(b);
         refresh();
     }

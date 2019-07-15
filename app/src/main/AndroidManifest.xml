@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".importActivity" android:launchMode="singleTask" android:noHistory="true"/>
+        <activity android:name=".importActivity" android:launchMode="singleTask"/>
 
     </application>
 
