@@ -670,6 +670,7 @@ public class mainActivity extends AppCompatActivity {
                 }else{
                     lblExplain.setVisibility(View.VISIBLE);
                 }
+                 break;
             case IMPORT_PAGE:
                 startActivity(new Intent(mainActivity.this, importActivity.class));
         }

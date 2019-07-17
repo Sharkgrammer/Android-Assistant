@@ -34,7 +34,6 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="90" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -46,7 +45,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="b5993f" />
+                                      <entry key="backgroundColor" value="006161" />
                                       <entry key="foregroundImage" value="C:\Users\gills\AndroidStudioProjects\Assistant\assets\logo.png" />
                                     </map>
                                   </option>

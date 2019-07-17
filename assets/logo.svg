@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="159.75mm"
-   height="159.75mm"
-   viewBox="0 0 159.75 159.75"
+   width="159.50594mm"
+   height="159.50595mm"
+   viewBox="0 0 159.50593 159.50596"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -26,23 +26,23 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="612.04134"
-     inkscape:cy="459.5"
+     inkscape:cx="-387.20849"
+     inkscape:cy="99.170179"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:lockguides="true"
-     showguides="false"
+     showguides="true"
      inkscape:snap-global="true"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="742"
-     inkscape:window-height="409"
-     inkscape:window-x="168"
-     inkscape:window-y="282"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -59,9 +59,17 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-20.666666,-47.413871)">
+     transform="translate(-20.855654,-47.468929)">
+    <rect
+       style="opacity:1;fill:#006161;fill-opacity:0.00485439;fill-rule:nonzero;stroke:none;stroke-width:0.99587035;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
+       id="rect861"
+       width="159.50594"
+       height="159.50595"
+       x="20.855654"
+       y="47.468929"
+       ry="0.1888725" />
     <path
-       style="opacity:1;fill:#3f51b5;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:1;fill:#008080;fill-opacity:0.98058256;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 100.54167,47.913871 c -43.837605,0 -79.375004,35.537399 -79.375004,79.374999 0,23.49839 10.210996,44.61187 26.43795,59.1454 14.045366,12.57962 32.597833,20.2296 52.937054,20.2296 20.89061,0 39.89629,-8.07039 54.06937,-21.26353 15.56822,-14.4918 25.30562,-35.16449 25.30562,-58.11147 0,-43.8376 -35.53739,-79.374999 -79.37499,-79.374999 z"
        id="path897"
        inkscape:connector-curvature="0"
@@ -90,5 +98,25 @@
        id="rect903"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="fill:#008080;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 66.23612,199.41305 c -2.684801,-0.84272 -3.945777,-22.45913 -3.192505,-33.72635 0.550953,-8.24098 2.356025,-24.80495 5.59793,-24.1375"
+       id="path817"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cac" />
+    <path
+       style="fill:#008080;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 134.46475,199.41305 c 2.6848,-0.84272 3.94578,-22.45913 3.1925,-33.72635 -0.55095,-8.24098 -2.35602,-24.80495 -5.59792,-24.1375"
+       id="path817-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cac" />
+    <rect
+       ry="0.1888725"
+       y="47.468929"
+       x="20.855654"
+       height="159.50595"
+       width="159.50594"
+       id="rect863"
+       style="opacity:1;fill:#802f00;fill-opacity:0;fill-rule:nonzero;stroke:none;stroke-width:0.99587035;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0" />
   </g>
 </svg>
