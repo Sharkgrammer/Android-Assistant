@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
@@ -44,14 +45,15 @@ public class mainActivity extends AppCompatActivity {
     private List<blacklist> blacklistList;
     private List<log> logList;
     private int appScreen = 0, pi;
-    private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3, HIDE_HELP = 4, IMPORT_PAGE = 5;
+    private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3, HIDE_HELP = 4, IMPORT_PAGE = 5, DASHBOARD = 6;
     private LinearLayout sclMainLin;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private boolean isOn = true, privateMode = false;
-    private Button btnOnOff, btnAddNew, btnPrivate;
+    private Button btnOnOff, btnAddNew, btnPrivate, btnBlocked, btnPassed, btnRecieved;
+    private ConstraintLayout layDash, layMain;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
@@ -129,6 +131,11 @@ public class mainActivity extends AppCompatActivity {
         btnOnOff = findViewById(R.id.btnOnOff);
         btnAddNew = findViewById(R.id.btnAdd);
         btnPrivate = findViewById(R.id.btnPrivate);
+        layDash = findViewById(R.id.layDash);
+        layMain = findViewById(R.id.layMain);
+        btnBlocked = findViewById(R.id.btnBlocked);
+        btnRecieved = findViewById(R.id.btnRecieved);
+        btnPassed = findViewById(R.id.btnPassed);
 
         //Setup drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerMain);
@@ -137,14 +144,15 @@ public class mainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        drawerItem[] drawerItem = new drawerItem[6];
+        drawerItem[] drawerItem = new drawerItem[7];
 
-        drawerItem[0] = new drawerItem(getResources().getString(R.string.people));
-        drawerItem[1] = new drawerItem(getResources().getString(R.string.apps));
-        drawerItem[2] = new drawerItem(getResources().getString(R.string.blacklist));
-        drawerItem[3] = new drawerItem(getResources().getString(R.string.logs));
-        drawerItem[4] = new drawerItem(getResources().getString(R.string.hide));
-        drawerItem[5] = new drawerItem(getResources().getString(R.string.settings));
+        drawerItem[0] = new drawerItem(getResources().getString(R.string.dash));
+        drawerItem[1] = new drawerItem(getResources().getString(R.string.people));
+        drawerItem[2] = new drawerItem(getResources().getString(R.string.apps));
+        drawerItem[3] = new drawerItem(getResources().getString(R.string.blacklist));
+        drawerItem[4] = new drawerItem(getResources().getString(R.string.logs));
+        drawerItem[5] = new drawerItem(getResources().getString(R.string.hide));
+        drawerItem[6] = new drawerItem(getResources().getString(R.string.settings));
 
         drawerAdapter adapter = new drawerAdapter(this, R.layout.list_item, drawerItem);
         drawerList.setAdapter(adapter);
@@ -154,7 +162,14 @@ public class mainActivity extends AppCompatActivity {
         setupDrawerToggle();
         //End setup
 
-        btnPersonClick(null);
+        SharedPreferences shared = this.getSharedPreferences("com.shark.assistant", MODE_PRIVATE);
+        if (!shared.getBoolean("help", true)){
+            lblExplain.setVisibility(View.GONE);
+        }else{
+            lblExplain.setVisibility(View.VISIBLE);
+        }
+
+        btnDashClick(null);
 
         //Hacky hack to return to later
         //TODO fix this mess
@@ -204,6 +219,12 @@ public class mainActivity extends AppCompatActivity {
         appScreen = APP;
         lblExplain.setText(R.string.appExplain);
         setTitle(R.string.apps);
+        refresh();
+    }
+
+    public void btnDashClick(View v){
+        appScreen = DASHBOARD;
+        setTitle(R.string.dash);
         refresh();
     }
 
@@ -312,11 +333,33 @@ public class mainActivity extends AppCompatActivity {
 
     private void refresh(){
 
-        appList = data.getAppList();
-        personList = data.getPersonList();
-        blacklistList = data.getBlacklistList();
+        if (appScreen == DASHBOARD){
+            layDash.setVisibility(View.VISIBLE);
+            layMain.setVisibility(View.GONE);
 
-        fillScrollLayout();
+            btnRecieved.setText(String.valueOf(logList.size()));
+
+            int tempInt = 0;
+            for (log x : logList){
+                if (x.isBlocked()){
+                    tempInt++;
+                }
+            }
+
+            btnBlocked.setText(String.valueOf(tempInt));
+            btnPassed.setText(String.valueOf(logList.size() - tempInt));
+
+        }else{
+            layDash.setVisibility(View.GONE);
+            layMain.setVisibility(View.VISIBLE);
+
+            appList = data.getAppList();
+            personList = data.getPersonList();
+            blacklistList = data.getBlacklistList();
+
+            fillScrollLayout();
+        }
+
     }
 
 
@@ -324,7 +367,6 @@ public class mainActivity extends AppCompatActivity {
         List<?> temp = null;
         sclMainLin.removeAllViews();
         int mode = PERSON;
-        btnAddNew.setText(getResources().getString(R.string.add));
         if (privateMode){
             btnPrivate.setText(R.string.privateOff);
         }else{
@@ -650,29 +692,41 @@ public class mainActivity extends AppCompatActivity {
 
     private void selectItem(int position) {
         switch (position){
-            case PERSON:
+            case 0:
+                btnDashClick(null);
+                break;
+
+            case PERSON + 1:
                 btnPersonClick(null);
                 break;
 
-            case APP:
+            case APP + 1:
                 btnAppClick(null);
                 break;
 
-            case BLACKLIST:
+            case BLACKLIST + 1:
                 btnBlacklistClick(null);
                 break;
-            case LOGS:
+            case LOGS + 1:
                 btnLogsClick(null);
                 break;
-            case HIDE_HELP:
+            case HIDE_HELP + 1:
                 if (lblExplain.getVisibility() == View.VISIBLE){
                     lblExplain.setVisibility(View.GONE);
                 }else{
                     lblExplain.setVisibility(View.VISIBLE);
                 }
-                 break;
-            case IMPORT_PAGE:
+
+                SharedPreferences prefs = this.getSharedPreferences("com.shark.assistant", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("help", lblExplain.getVisibility() == View.VISIBLE);
+                editor.apply();
+
+
+                break;
+            case IMPORT_PAGE + 1:
                 startActivity(new Intent(mainActivity.this, importActivity.class));
+                break;
         }
 
         drawerLayout.closeDrawer(drawerList);
@@ -692,6 +746,11 @@ public class mainActivity extends AppCompatActivity {
     @Override
     public void setTitle(CharSequence title) {
         getSupportActionBar().setTitle(title);
+
+        //also set button pls
+        String text = getResources().getString(R.string.add) + " " + title;
+        btnAddNew.setText(text);
+
     }
 
     @Override

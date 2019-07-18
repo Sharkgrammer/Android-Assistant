@@ -3,14 +3,14 @@
     <string name="app_name">Assistant</string>
     <string name="service_name">notiServ</string>
     <string name="peopleInput">Name in app</string>
-    <string name="peopleOutput">Nickname</string>
-    <string name="peopleExplain">Set peoples names in applications to be something else here</string>
+    <string name="peopleOutput">Person\'s name</string>
+    <string name="peopleExplain">Have people\'s names in apps to be read out as something else here</string>
     <string name="appInput">App package</string>
     <string name="appOutput">App nickname/message</string>
-    <string name="appExplain">Set app messages to be something else here. It uses the package name</string>
-    <string name="blacklistInput">Blacklist input</string>
+    <string name="appExplain">Rename an app package name to be read out as something else here</string>
+    <string name="blacklistInput">Blacklist text</string>
     <string name="blacklistOutput">Type</string>
-    <string name="blacklistExplain">Enter something here for it to be ignored. Type 0 for matching, 1 for exact and 2 for regex</string>
+    <string name="blacklistExplain">Blacklist any notifications for them not to be read out. Type 0 if the notification contains it, 1 for exact matching and 2 for regex</string>
     <string name="logsExplain">Any notification you get is logged here</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
@@ -43,6 +43,7 @@
     <string name="clearData">Clear Lists</string>
     <string name="backData">Return</string>
     <string name="settings">Settings</string>
+    <string name="dash">Dashboard</string>
     <string name="explainData">You can import/export/clear your notification lists here</string>
 
 </resources>

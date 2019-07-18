@@ -10,113 +10,203 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/mainborderoverall"
-        tools:context=".mainActivity">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:local="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            local:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <Button
-            android:id="@+id/btnBlacklist"
-            android:layout_width="wrap_content"
-            android:layout_height="46dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:onClick="btnBlacklistClick"
-            android:text="@string/blacklist"
-            android:textColor="@color/colorTextLight"
-            android:theme="@style/PrimaryRaisedButton"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:minHeight="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.017" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:onClick="btnNewClick"
-            android:text="@string/add"
-            android:theme="@style/PrimaryRaisedButton"
-            android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/btnPrivate"
-            app:layout_constraintStart_toEndOf="@+id/btnOnOff"
-            app:layout_constraintTop_toBottomOf="@+id/lblExplain" />
-
-        <Button
-            android:id="@+id/btnOnOff"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:onClick="btnOnOff"
-            android:text="@string/turnOff"
-            android:theme="@style/PrimaryRaisedButton"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblExplain" />
-
-        <Button
-            android:id="@+id/btnPrivate"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="4dp"
-            android:onClick="btnPrivate"
-            android:text="@string/privateOn"
-            android:theme="@style/PrimaryRaisedButton"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblExplain" />
-
-        <TextView
-            android:id="@+id/lblExplain"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/textborder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBlacklist" />
-
-        <ScrollView
-            android:id="@+id/sclMain"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layDash"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/mainborder"
-            android:scrollbars="none"
+            android:background="@drawable/mainborderoverall"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAdd">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:context=".mainActivity">
 
-            <LinearLayout
-                android:id="@+id/sclMainLin"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnRecieved"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/circle"
+                android:onClick="btnLogsClick"
+                android:text="0"
+                android:theme="@style/PrimaryFlatButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/btnBlocked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:background="@drawable/circlered"
+                android:onClick="btnBlacklistClick"
+                android:text="0"
+                android:theme="@style/PrimaryFlatButton"
+                app:layout_constraintEnd_toStartOf="@+id/btnRecieved"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnRecieved" />
+
+            <Button
+                android:id="@+id/btnPassed"
+                android:layout_width="wrap_content"
+                android:layout_height="113dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/circlegreen"
+                android:onClick="btnLogsClick"
+                android:text="0"
+                android:theme="@style/PrimaryFlatButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnRecieved"
+                app:layout_constraintTop_toBottomOf="@+id/btnRecieved" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="6dp"
+                android:text="Recieved"
+                app:layout_constraintBottom_toTopOf="@+id/btnRecieved"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="60dp"
+                android:text="Blocked"
+                app:layout_constraintBottom_toTopOf="@+id/btnBlocked"
+                app:layout_constraintEnd_toStartOf="@+id/btnRecieved"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="63dp"
+                android:text="Passed"
+                app:layout_constraintBottom_toTopOf="@+id/btnPassed"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/btnOnOff"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/circle"
+                android:onClick="btnOnOff"
+                android:text="@string/turnOff"
+                android:theme="@style/PrimaryFlatButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.036"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnBlocked" />
+
+            <Button
+                android:id="@+id/btnPrivate"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/circle"
+                android:onClick="btnPrivate"
+                android:text="@string/privateOn"
+                android:theme="@style/PrimaryFlatButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.963"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnPassed" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layMain"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/mainborderoverall"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:context=".mainActivity">
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="70dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="8dp"
+                android:onClick="btnNewClick"
+                android:text="@string/add"
+                android:theme="@style/PrimaryRaisedButton"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblExplain" />
+
+            <TextView
+                android:id="@+id/lblExplain"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/textborder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ScrollView
+                android:id="@+id/sclMain"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/mainborder"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnAdd">
+
+                <LinearLayout
+                    android:id="@+id/sclMainLin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+        </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
 
     <ListView
         android:id="@+id/drawerList"
