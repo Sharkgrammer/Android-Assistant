@@ -11,8 +11,9 @@
 # Dashboard / Drawer
 
 <div style="inline:block">
-  <img width="45%" src="https://i.imgur.com/9gK9mVd.png">
-  <img width="45%" src="https://i.imgur.com/2Eoi6U5.png">
+  <img width="30%" src="https://i.imgur.com/HE438up.png">
+  <img width="30%" src="https://i.imgur.com/2Eoi6U5.png">
+  <img width="30%" src="https://i.imgur.com/wocZ1lH.png">
 </div>
 
 # People
