@@ -1,4 +1,4 @@
-# Android-Assistant
+# Android Assistant
  Notification  Reading app. 
 
 * Blacklist certain notifications based on their contents or via a regex expression. 
