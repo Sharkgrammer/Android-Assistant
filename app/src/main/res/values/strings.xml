@@ -45,5 +45,12 @@
     <string name="settings">Settings</string>
     <string name="dash">Dashboard</string>
     <string name="explainData">You can import/export/clear your notification lists here</string>
+    <string name="titleSplash1">Android Assistant</string>
+    <string name="titleSplash2">Notification Reading Application</string>
+    <string name="firstTitleSplash">Thank you for installing!</string>
+    <string name="firstContentSplash">Android Assistant can:\n\n\u2022Read out any notification\n\u2022Block any notification from being read out\n\u2022Change people\'s or apps names when read out\n\u2022Log each notification\n\u2022Show how many notifications have been received</string>
+    <string name="secondTitleSplash">Application Screens</string>
+    <string name="secondContentSplash">Dashboard\n      \u2022View the amount of notifications you\'ve gotten\n      \u2022Turn it on/off\n      \u2022Activate private mode\nPeople\n      \u2022Change people\'s name in apps to be something else when read\nApps\n      \u2022Change app names to be something else when read\nBlacklist\n      \u2022Block notifications here\nLogs\n      \u2022Log all notifications and block from here\nSettings\n      \u2022Import and export lists, and clear your own list\n</string>
+
 
 </resources>

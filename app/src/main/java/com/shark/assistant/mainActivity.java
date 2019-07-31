@@ -173,6 +173,15 @@ public class mainActivity extends AppCompatActivity {
             lblExplain.setVisibility(View.VISIBLE);
         }
 
+        if (shared.getBoolean("start", true)){
+            startActivity(new Intent(mainActivity.this, splashActivity.class));
+
+            SharedPreferences prefs = this.getSharedPreferences("com.shark.assistant", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("start", false);
+            editor.apply();
+        }
+
         btnDashClick(null);
 
         //Hacky hack to return to later
