@@ -448,6 +448,13 @@ public class mainActivity extends AppCompatActivity {
                 }
             });
 
+            Child.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btnEditClick(objMain);
+                }
+            });
+
             switch (mode){
                 case PERSON:
                     per = (person) obj;
