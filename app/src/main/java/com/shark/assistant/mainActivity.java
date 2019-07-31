@@ -44,7 +44,7 @@ public class mainActivity extends AppCompatActivity {
     private List<person> personList;
     private List<blacklist> blacklistList;
     private List<log> logList;
-    private int appScreen = 0, pi;
+    private int appScreen = 0, pi, logTotal = 0, logBlocked = 0;
     private final int PERSON = 0, APP = 1, BLACKLIST = 2, LOGS = 3, HIDE_HELP = 4, IMPORT_PAGE = 5, DASHBOARD = 6;
     private LinearLayout sclMainLin;
     private DrawerLayout drawerLayout;
@@ -98,6 +98,10 @@ public class mainActivity extends AppCompatActivity {
             }
 
             logList.add(log);
+
+            if (appScreen == LOGS){
+                refresh();
+            }
 
             Log.i("TTS", "\"" + dataStr + "\"");
             int speechStatus = textToSpeech.speak(dataStr.replace("---", "."), TextToSpeech.QUEUE_FLUSH, null);
@@ -196,7 +200,19 @@ public class mainActivity extends AppCompatActivity {
         if (appScreen != LOGS){
             popupDialog(null);
         }else{
-            fillLogLayout();
+
+            int tempInt = 0;
+            for (log x : logList){
+                if (x.isBlocked()){
+                    tempInt++;
+                }
+            }
+
+            logTotal = logList.size();
+            logBlocked = tempInt;
+
+            logList.clear();
+            refresh();
         }
 
     }
@@ -229,16 +245,11 @@ public class mainActivity extends AppCompatActivity {
     }
 
     public void btnPrivate(View v) {
-        if (appScreen == LOGS){
-            logList.clear();
-            refresh();
+        privateMode = !privateMode;
+        if (privateMode){
+            btnPrivate.setText(R.string.privateOff);
         }else{
-            privateMode = !privateMode;
-            if (privateMode){
-                btnPrivate.setText(R.string.privateOff);
-            }else{
-                btnPrivate.setText(R.string.privateOn);
-            }
+            btnPrivate.setText(R.string.privateOn);
         }
     }
 
@@ -337,7 +348,7 @@ public class mainActivity extends AppCompatActivity {
             layDash.setVisibility(View.VISIBLE);
             layMain.setVisibility(View.GONE);
 
-            btnRecieved.setText(String.valueOf(logList.size()));
+            btnRecieved.setText(String.valueOf(logList.size() + logTotal));
 
             int tempInt = 0;
             for (log x : logList){
@@ -346,8 +357,8 @@ public class mainActivity extends AppCompatActivity {
                 }
             }
 
-            btnBlocked.setText(String.valueOf(tempInt));
-            btnPassed.setText(String.valueOf(logList.size() - tempInt));
+            btnBlocked.setText(String.valueOf(tempInt + logBlocked));
+            btnPassed.setText(String.valueOf((logList.size() + logTotal) - (tempInt + logBlocked)));
 
         }else{
             layDash.setVisibility(View.GONE);
@@ -462,8 +473,7 @@ public class mainActivity extends AppCompatActivity {
 
     private void fillLogLayout(){
         sclMainLin.removeAllViews();
-        btnAddNew.setText(getResources().getString(R.string.refreshAdd));
-        btnPrivate.setText(R.string.privateClear);
+        btnAddNew.setText(R.string.privateClear);
         TextView pack,title,text,fixed,original,time;
         ConstraintLayout lay;
         Drawable failBack = getResources().getDrawable(R.drawable.itemlogborderfail);
@@ -721,7 +731,6 @@ public class mainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("help", lblExplain.getVisibility() == View.VISIBLE);
                 editor.apply();
-
 
                 break;
             case IMPORT_PAGE + 1:
