@@ -1,6 +1,7 @@
 package com.shark.assistant;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -49,12 +50,14 @@ public class processor {
             }
         }
 
+        String blacklistText = text.replace("---", "");
         if (!blacklistList.isEmpty()){
             for (blacklist x : blacklistList){
+                Log.wtf("BLACKLIST", x.getInput());
                 switch(x.getType()){
                     case CONTAINS:
 
-                        if (text.contains(x.getInput())){
+                        if (blacklistText.contains(x.getInput())){
                             return null;
                         }
 
@@ -62,7 +65,7 @@ public class processor {
 
                     case EXACT:
 
-                        if (text.equals(x.getInput())){
+                        if (blacklistText.equals(x.getInput())){
                             return null;
                         }
 
@@ -71,7 +74,7 @@ public class processor {
                     case REGEX:
 
                         pattern = Pattern.compile(x.getInput());
-                        matcher = pattern.matcher(text);
+                        matcher = pattern.matcher(blacklistText);
 
                         if (matcher.find()){
                             return null;
