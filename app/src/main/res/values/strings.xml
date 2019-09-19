@@ -48,9 +48,22 @@
     <string name="titleSplash1">Android Assistant</string>
     <string name="titleSplash2">Notification Reading Application</string>
     <string name="firstTitleSplash">Thank you for installing!</string>
-    <string name="firstContentSplash">Android Assistant can:\n\n\u2022Read out any notification\n\u2022Block any notification from being read out\n\u2022Change people\'s or apps names when read out\n\u2022Log each notification\n\u2022Show how many notifications have been received</string>
+    <string name="firstSplashOne">Read any notification you receive</string>
+    <string name="firstSplashTwo">Blacklist certain notifications so they aren\'t read out</string>
+    <string name="firstSplashThree">Set custom names for your apps when read out</string>
+    <string name="firstSplashFour">Set custom names for people when read out</string>
+    <string name="firstSplashFive">Log notifications and blacklist them from there</string>
+    <string name="firstSplashSix">Import/Export your app/people/blacklist lists</string>
+    <string name="firstSplashSeven">Turn on/off with a button and use a private mode</string>
     <string name="secondTitleSplash">Application Screens</string>
-    <string name="secondContentSplash">Dashboard\n      \u2022View the amount of notifications you\'ve gotten\n      \u2022Turn it on/off\n      \u2022Activate private mode\nPeople\n      \u2022Change people\'s name in apps to be something else when read\nApps\n      \u2022Change app names to be something else when read\nBlacklist\n      \u2022Block notifications here\nLogs\n      \u2022Log all notifications and block from here\nSettings\n      \u2022Import and export lists, and clear your own list\n</string>
+    <string name="secondSplashOne">Dashboard: The home screen which shows stats on notifications and has buttons for turning on/off and private mode</string>
+    <string name="secondSplashTwo">People: This screen allows you to add and edit custom names for people</string>
+    <string name="secondSplashThree">Apps: This screen allows you to add and edit custom names for apps</string>
+    <string name="secondSplashFour">Blacklist: This screen shows your blacklist for notifications</string>
+    <string name="secondSplashFive">Logs: Every notification and its details are logged here</string>
+    <string name="secondSplashSix">Toggle Help: Toggle the help messages from here</string>
+    <string name="secondSplashSeven">Settings: Access the import/export screen and wipe your data</string>
+
 
 
 </resources>
