@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 public class splashActivity extends AppCompatActivity {
 
-    private ConstraintLayout layMain, layFirst, laySecond;
+    private ConstraintLayout layMain;
+    private ScrollView layFirst, laySecond;
     private ImageView btnNext, btnBack;
 
     @Override
@@ -55,7 +57,17 @@ public class splashActivity extends AppCompatActivity {
         });
     }
 
-    private void change(ConstraintLayout to, ConstraintLayout from){
+    private void change(ScrollView to, ConstraintLayout from){
+        to.setVisibility(View.VISIBLE);
+        from.setVisibility(View.INVISIBLE);
+    }
+
+    private void change(ConstraintLayout to, ScrollView from){
+        to.setVisibility(View.VISIBLE);
+        from.setVisibility(View.INVISIBLE);
+    }
+
+    private void change(ScrollView to, ScrollView from){
         to.setVisibility(View.VISIBLE);
         from.setVisibility(View.INVISIBLE);
     }

@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">Assistant</string>
-    <string name="service_name">AssistantNotifications</string>
+    <string name="service_name">Assistant Notifications Service</string>
     <string name="peopleInput">Name in app</string>
     <string name="peopleOutput">Read out name</string>
     <string name="peopleExplain">Have people\'s names in apps to be read out as something else here</string>
