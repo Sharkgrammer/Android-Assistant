@@ -27,7 +27,7 @@ public class processor {
         text = text.toLowerCase();
 
         //Check if its a link here
-        Pattern pattern = Pattern.compile("(http)(.)?\\:\\/\\/(\\w*\\.?\\-?\\??\\=?\\&?\\/*)*");
+        Pattern pattern = Pattern.compile("(http)(.)?\\:\\/\\/(\\w*\\.?\\-?\\??\\=?\\&?\\/*\\#?)*");
         Matcher matcher = pattern.matcher(text);
 
         if (matcher.find()){
@@ -53,7 +53,6 @@ public class processor {
         String blacklistText = text.replace("---", "");
         if (!blacklistList.isEmpty()){
             for (blacklist x : blacklistList){
-                Log.wtf("BLACKLIST", x.getInput());
                 switch(x.getType()){
                     case CONTAINS:
 

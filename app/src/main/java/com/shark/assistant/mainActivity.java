@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.LocalBroadcastManager;
@@ -166,6 +167,11 @@ public class mainActivity extends AppCompatActivity {
         setupDrawerToggle();
         //End setup
 
+        if (!NotificationEnabled(this, this.getPackageName())){
+            Toast.makeText(getApplicationContext(), "Before it can work, please enable notification access in your settings", Toast.LENGTH_LONG).show();
+            startActivityForResult(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS), 0);
+        }
+
         SharedPreferences shared = this.getSharedPreferences("com.shark.assistant", MODE_PRIVATE);
         if (!shared.getBoolean("help", true)){
             lblExplain.setVisibility(View.GONE);
@@ -184,9 +190,22 @@ public class mainActivity extends AppCompatActivity {
 
         btnDashClick(null);
 
-        //Hacky hack to return to later
-        //TODO fix this mess
+        LocalBroadcastManager ins =  LocalBroadcastManager.getInstance(this);
+        ins.registerReceiver(onNotice, new IntentFilter("Msg"));
+    }
 
+    public static boolean NotificationEnabled(Context context, String app) {
+        try{
+            return Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners").contains(app);
+        }catch(Exception e) {
+            Log.wtf("Error", e.toString());
+        }
+        return false;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
         LocalBroadcastManager ins =  LocalBroadcastManager.getInstance(this);
 
         try{
@@ -195,7 +214,7 @@ public class mainActivity extends AppCompatActivity {
             Log.wtf("Error in LocalBroadcastManager", e.toString());
         }
 
-        ins.registerReceiver(onNotice, new IntentFilter("Msg"));
+        Log.wtf(":(", "Sad");
     }
 
     @Override

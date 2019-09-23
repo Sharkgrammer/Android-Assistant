@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 public class notificationService extends NotificationListenerService {
 
@@ -15,6 +16,11 @@ public class notificationService extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+    }
+
+    @Override
+    public void onDestroy (){
+        Log.wtf("halp", "halp");
     }
 
     @Override
