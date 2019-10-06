@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +54,7 @@ public class mainActivity extends AppCompatActivity {
     private boolean isOn = true, privateMode = false;
     private Button btnOnOff, btnAddNew, btnPrivate, btnBlocked, btnPassed, btnRecieved;
     private ConstraintLayout layDash, layMain;
+    private Intent serviceIntent;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
@@ -190,8 +190,9 @@ public class mainActivity extends AppCompatActivity {
 
         btnDashClick(null);
 
-        LocalBroadcastManager ins =  LocalBroadcastManager.getInstance(this);
-        ins.registerReceiver(onNotice, new IntentFilter("Msg"));
+        serviceIntent = new Intent(this, notificationService.class);
+
+        BroadcastManagerStop(true);
     }
 
     public static boolean NotificationEnabled(Context context, String app) {
@@ -203,16 +204,26 @@ public class mainActivity extends AppCompatActivity {
         return false;
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
+    private void BroadcastManagerStop(Boolean Restart){
         LocalBroadcastManager ins =  LocalBroadcastManager.getInstance(this);
 
         try{
             ins.unregisterReceiver(onNotice);
+            stopService(serviceIntent);
         }catch (Exception e){
             Log.wtf("Error in LocalBroadcastManager", e.toString());
         }
+
+        if (Restart) {
+            ins.registerReceiver(onNotice, new IntentFilter("Msg"));
+            startService(serviceIntent);
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        BroadcastManagerStop(false);
 
         Log.wtf(":(", "Sad");
     }
@@ -220,6 +231,7 @@ public class mainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        BroadcastManagerStop(true);
         Log.wtf("res", "Resume called");
         refresh(0);
     }

@@ -20,7 +20,7 @@ public class notificationService extends NotificationListenerService {
 
     @Override
     public void onDestroy (){
-        Log.wtf("halp", "halp");
+        onNotificationPosted(null);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class notificationService extends NotificationListenerService {
 
             LocalBroadcastManager.getInstance(context).sendBroadcast(msg);
         } catch (Exception e) {
-            return;
+            Log.wtf("Error in onNotificationPosted", e.toString());
         }
     }
 
