@@ -100,7 +100,7 @@ public class mainActivity extends AppCompatActivity {
 
             logList.add(log);
 
-            if (appScreen == LOGS){
+            if (appScreen == LOGS || appScreen == DASHBOARD){
                 refresh();
             }
 
