@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">Assistant</string>
-    <string name="service_name">Assistant Notifications Service</string>
+    <string name="service_name">Assistant Notification Service</string>
     <string name="peopleInput">Name in app</string>
     <string name="peopleOutput">Read out name</string>
     <string name="peopleExplain">Have people\'s names in apps to be read out as something else here</string>
@@ -26,16 +26,16 @@
     <string name="logs">Logs</string>
     <string name="addDialog">Adding a new</string>
     <string name="editDialog">Editing</string>
-    <string name="turnOn">Turn On</string>
-    <string name="turnOff">Turn Off</string>
+    <string name="turnOn">Resume</string>
+    <string name="turnOff">Pause</string>
     <string name="pack">App Package</string>
     <string name="title">Notification Title</string>
     <string name="text">Notification Text</string>
     <string name="original">Full</string>
     <string name="fixed">Fixed</string>
     <string name="time">Time</string>
-    <string name="privateOn">Private</string>
-    <string name="privateOff">Normal</string>
+    <string name="privateOn">Set Private</string>
+    <string name="privateOff">Set Normal</string>
     <string name="privateClear">Clear</string>
     <string name="hide">Toggle Help</string>
     <string name="importData">Import Lists</string>
