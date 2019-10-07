@@ -16,9 +16,9 @@
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="logo.svg"
-   inkscape:export-filename="C:\Users\gills\AndroidStudioProjects\Assistant\assets\logo.png"
-   inkscape:export-xdpi="207.76801"
-   inkscape:export-ydpi="207.76801">
+   inkscape:export-filename="C:\Users\gills\AndroidStudioProjects\Assistant\assets\logoSmall.png"
+   inkscape:export-xdpi="81.407196"
+   inkscape:export-ydpi="81.407196">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="-422.92278"
+     inkscape:cx="-849.56476"
      inkscape:cy="106.31304"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -43,9 +43,9 @@
      fit-margin-bottom="0"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
-     inkscape:window-x="-30080"
-     inkscape:window-y="-32000"
-     inkscape:window-maximized="0" />
+     inkscape:window-x="2391"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -54,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
