@@ -56,6 +56,7 @@ public class mainActivity extends AppCompatActivity {
     private Button btnOnOff, btnAddNew, btnPrivate, btnBlocked, btnPassed, btnRecieved;
     private ConstraintLayout layDash, layMain;
     private Intent serviceIntent;
+    private processor pro;
 
     private BroadcastReceiver onNotice = new BroadcastReceiver() {
         @Override
@@ -92,9 +93,7 @@ public class mainActivity extends AppCompatActivity {
             String dataStr = pack + " --- " + title + " --- " + text;
             log.setOriginal(dataStr.replace("---", ""));
 
-            processor pro = new processor(mainActivity.this);
-
-            dataStr = pro.processText(dataStr.trim(), privateMode);
+            dataStr = pro.processText(dataStr.trim(), privateMode, textToSpeech.isSpeaking(), pack);
 
             if (dataStr == null){
                 log.setBlocked(true);
@@ -112,7 +111,7 @@ public class mainActivity extends AppCompatActivity {
             }
 
             Log.i("TTS", "\"" + dataStr + "\"");
-            int speechStatus = textToSpeech.speak(dataStr.replace("---", "."), TextToSpeech.QUEUE_FLUSH, null);
+            int speechStatus = textToSpeech.speak(dataStr.replace("---", "."), TextToSpeech.QUEUE_ADD, null, null);
             if (speechStatus == TextToSpeech.ERROR) {
                 Log.e("TTS", "Error in converting Text to Speech!");
             }
@@ -123,6 +122,8 @@ public class mainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pro = new processor(mainActivity.this);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override

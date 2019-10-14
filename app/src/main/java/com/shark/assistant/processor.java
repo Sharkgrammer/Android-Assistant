@@ -9,11 +9,13 @@ import java.util.regex.Pattern;
 
 public class processor {
 
-    Context context;
+    private Context context;
     private List<app> appList;
     private List<person> personList;
     private List<blacklist> blacklistList;
     private final int CONTAINS = 0, EXACT = 1, REGEX = 2;
+    private String previousPackage = "";
+
 
     public processor(Context c){
         context = c;
@@ -23,8 +25,18 @@ public class processor {
         personList = data.getPersonList();
     }
 
-    public String processText(String text, boolean privateMode){
+    public String processText(String text, boolean privateMode, boolean isSpeaking, String pack){
         text = text.toLowerCase();
+
+        if (isSpeaking){
+            if (previousPackage.equals(pack)){
+                text = text.replace(pack, " and ");
+            }else{
+                text = " and a " + text;
+            }
+        }
+
+        previousPackage = pack;
 
         //Check if its a link here
         Pattern pattern = Pattern.compile("(http)(.)?\\:\\/\\/(\\w*\\.?\\-?\\??\\=?\\:?\\&?\\/*\\#?)*");
