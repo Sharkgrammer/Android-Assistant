@@ -28,16 +28,6 @@ public class processor {
     public String processText(String text, boolean privateMode, boolean isSpeaking, String pack){
         text = text.toLowerCase();
 
-        if (isSpeaking){
-            if (previousPackage.equals(pack)){
-                text = text.replace(pack, " and ");
-            }else{
-                text = " and a " + text;
-            }
-        }
-
-        previousPackage = pack;
-
         //Check if its a link here
         Pattern pattern = Pattern.compile("(http)(.)?\\:\\/\\/(\\w*\\.?\\-?\\??\\=?\\:?\\&?\\/*\\#?)*");
         Matcher matcher = pattern.matcher(text);
@@ -55,14 +45,6 @@ public class processor {
             }
 
             text = normalResponse + tempString;
-        }
-
-        if (!appList.isEmpty()){
-            for (app x : appList){
-                if (text.contains(x.getInput())){
-                    text = text.replace(x.getInput(), x.getOutput());
-                }
-            }
         }
 
         if (!personList.isEmpty()){
@@ -103,6 +85,24 @@ public class processor {
                         }
 
                         break;
+                }
+            }
+        }
+
+        if (isSpeaking){
+            if (previousPackage.equals(pack)){
+                text = text.replace(pack, " and ");
+            }else{
+                text = " and a " + text;
+            }
+        }
+
+        previousPackage = pack;
+
+        if (!appList.isEmpty()){
+            for (app x : appList){
+                if (text.contains(x.getInput())){
+                    text = text.replace(x.getInput(), x.getOutput());
                 }
             }
         }
