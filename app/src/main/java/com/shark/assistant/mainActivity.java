@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
@@ -60,7 +61,13 @@ public class mainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (!isOn){
+            AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+            try{
+                if (!isOn || manager.getMode() == AudioManager.MODE_IN_CALL){
+                    return;
+                }
+            }catch(Exception e){
+                Log.wtf("Error", e.toString());
                 return;
             }
 
