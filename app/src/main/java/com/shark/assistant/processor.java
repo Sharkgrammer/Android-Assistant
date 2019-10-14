@@ -27,11 +27,22 @@ public class processor {
         text = text.toLowerCase();
 
         //Check if its a link here
-        Pattern pattern = Pattern.compile("(http)(.)?\\:\\/\\/(\\w*\\.?\\-?\\??\\=?\\&?\\/*\\#?)*");
+        Pattern pattern = Pattern.compile("(http)(.)?\\:\\/\\/(\\w*\\.?\\-?\\??\\=?\\:?\\&?\\/*\\#?)*");
         Matcher matcher = pattern.matcher(text);
 
         if (matcher.find()){
-            text = text.replace(matcher.group(), context.getResources().getString(R.string.linkText));
+            String normalResponse = text.replace(matcher.group(), context.getResources().getString(R.string.linkText));
+            String tempString = "";
+
+            pattern =  Pattern.compile("\\/\\/(\\w*\\.*)*");
+            matcher = pattern.matcher(text);
+
+            if (matcher.find()){
+                tempString = matcher.group();
+                tempString = " from " + tempString.replace(".", "").replace("www", "").replace("com", "").replace("//", "").replace("ie", "");
+            }
+
+            text = normalResponse + tempString;
         }
 
         if (!appList.isEmpty()){
